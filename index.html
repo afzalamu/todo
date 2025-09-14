@@ -4,30 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My To-Do List</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
-
         :root {
-            --primary-color: #4b6cb7;
-            --secondary-color: #182848;
-            --accent-color: #ef476f;
-            --text-color: #2c3e50;
-            --bg-color: #f0f4f8;
-            --card-bg: #ffffff;
-            --card-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            --primary-color: #2F3640; /* Dark Slate */
+            --secondary-color: #00796B; /* Teal */
+            --accent-color: #FFC107; /* Amber */
+            --danger-color: #EF5350; /* Red */
+            --text-color: #555;
+            --light-text-color: #999;
+            --bg-color: #F8F9FA; /* Off-white background */
+            --card-bg: #FFFFFF; /* White card background */
+            --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            --border-color: #ECEFF1; /* Light border */
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
             display: flex;
             justify-content: center;
             align-items: flex-start;
             min-height: 100vh;
-            padding: 1rem;
+            padding: 1.5rem 1rem;
             margin: 0;
             box-sizing: border-box;
+            line-height: 1.5;
         }
 
         .container {
@@ -40,75 +44,79 @@
 
         .card {
             background-color: var(--card-bg);
-            border-radius: 15px;
+            border-radius: 12px;
             box-shadow: var(--card-shadow);
             padding: 1.5rem;
-            transition: transform 0.3s ease;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
         .card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
         }
         
-        h1, h2, h3 {
-            color: var(--secondary-color);
-            font-weight: 600;
+        h1 {
+            font-family: 'Lora', serif;
+            color: var(--primary-color);
+            font-weight: 700;
+            font-size: 2rem;
             margin-top: 0;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        h2 {
+            font-family: 'Lora', serif;
+            color: var(--primary-color);
+            font-weight: 700;
+            font-size: 1.4rem;
             margin-bottom: 1rem;
+        }
+
+        h3 {
+            font-family: 'Inter', sans-serif;
+            color: var(--primary-color);
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
         }
 
         #quote-container {
             text-align: center;
-            font-style: italic;
-            margin-bottom: 1.5rem;
+            margin-bottom: 0.5rem;
         }
         
         #quote-container p {
-            font-size: 1.1rem;
-            color: var(--primary-color);
-            font-weight: 300;
+            font-family: 'Lora', serif;
+            font-size: 1.2rem;
+            color: var(--secondary-color);
+            font-weight: 400;
+            font-style: italic;
+            margin-bottom: 0.2rem;
         }
         
         #quote-container cite {
             display: block;
-            margin-top: 0.5rem;
-            color: #95a5a6;
+            color: var(--light-text-color);
             font-style: normal;
-        }
-
-        .calendar {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 5px;
-            text-align: center;
-            font-weight: 600;
-        }
-
-        .calendar div {
-            padding: 0.5rem 0;
-            border-radius: 8px;
-            background-color: #e3e8ee;
-            transition: background-color 0.3s;
+            font-size: 0.85rem;
+            opacity: 0.8;
         }
         
-        .calendar div:hover {
-            background-color: #d1d9e6;
+        .today-date {
+            text-align: center;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--light-text-color);
+            margin-top: 0.8rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
         }
-
-        .calendar .current-day {
-            background-color: var(--primary-color);
-            color: white;
-            font-weight: bold;
-        }
-
+        
         .task-section {
             display: flex;
             flex-direction: column;
             gap: 1.5rem;
-        }
-        
-        .braindump-section {
-            order: 4; /* Ensures this section appears last on a mobile layout */
         }
         
         .task-list {
@@ -124,103 +132,116 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 0.5rem;
-            transition: background-color 0.3s;
+            margin-bottom: 0.6rem;
+            transition: background-color 0.2s ease;
+            border: 1px solid var(--border-color);
         }
 
         .task-list li:hover {
-            background-color: #e3e8ee;
+            background-color: #EFEFEF;
         }
 
         .task-list input[type="text"] {
             border: none;
             background: transparent;
             font-size: 1rem;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', sans-serif;
             flex-grow: 1;
+            padding: 0.2rem 0;
+            color: var(--text-color);
         }
 
         .task-list input[type="text"]:focus {
             outline: none;
+            border-bottom: 1px solid var(--secondary-color);
         }
         
         .task-list input[type="checkbox"] {
-            margin-right: 1rem;
+            margin-right: 0.8rem;
             appearance: none;
-            width: 1.5rem;
-            height: 1.5rem;
-            border: 2px solid var(--primary-color);
+            width: 1.3rem;
+            height: 1.3rem;
+            border: 2px solid var(--secondary-color);
             border-radius: 50%;
             cursor: pointer;
             position: relative;
-            transition: background-color 0.3s, border-color 0.3s;
+            transition: background-color 0.2s, border-color 0.2s;
+            flex-shrink: 0;
         }
         
         .task-list input[type="checkbox"]:checked {
-            background-color: var(--accent-color);
-            border-color: var(--accent-color);
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
         }
         
         .task-list input[type="checkbox"]:checked::after {
-            content: '✓';
+            content: '\f00c';
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
             color: white;
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 1rem;
+            font-size: 0.7rem;
         }
 
         .completed-task {
             text-decoration: line-through;
-            color: #95a5a6;
+            color: var(--light-text-color);
+            opacity: 0.7;
         }
         
         .braindump-list li {
-            background-color: #e8f0f7;
+            background-color: #E0F2F7;
+            border-color: #B2EBF2;
         }
 
         .add-task-btn {
-            background-color: var(--primary-color);
+            background-color: var(--secondary-color);
             color: white;
             border: none;
-            padding: 0.75rem 1.5rem;
+            padding: 0.7rem 1.2rem;
             border-radius: 8px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: background-color 0.2s ease, transform 0.2s ease;
             font-weight: 600;
             width: 100%;
-            margin-top: 0.5rem;
+            margin-top: 0.7rem;
+            font-size: 0.95rem;
         }
 
         .add-task-btn:hover {
-            background-color: var(--secondary-color);
+            background-color: var(--primary-color);
+            transform: translateY(-1px);
         }
         
         .add-braindump-btn {
-            background-color: #6a89cc;
+            background-color: var(--primary-color);
         }
         
         .add-braindump-btn:hover {
-            background-color: #4a69ad;
+            background-color: #00564D;
         }
 
         .delete-btn {
             background: none;
             border: none;
-            color: #95a5a6;
+            color: var(--danger-color);
             cursor: pointer;
             font-size: 1.2rem;
-            margin-left: 1rem;
-            transition: color 0.3s;
+            margin-left: 0.75rem;
+            opacity: 0.7;
+            transition: opacity 0.2s, transform 0.2s;
         }
         
         .delete-btn:hover {
-            color: var(--accent-color);
+            opacity: 1;
+            transform: scale(1.1);
         }
 
         .reset-btn {
-            background-color: var(--accent-color);
+            background-color: var(--danger-color);
             color: white;
             border: none;
             padding: 0.75rem 1.5rem;
@@ -231,31 +252,33 @@
             width: 100%;
             text-align: center;
             font-weight: 600;
-            transition: background-color 0.3s;
+            transition: background-color 0.2s ease;
         }
         
         .reset-btn:hover {
-            background-color: #c0392b;
+            background-color: #b32a2a;
         }
 
         @media (min-width: 768px) {
+            body {
+                padding: 3rem;
+            }
             .container {
-                display: grid;
-                grid-template-columns: 1fr 3fr;
-                gap: 2.5rem;
-                max-width: 1200px;
+                display: flex;
+                flex-direction: column;
+                max-width: 900px;
+                gap: 2rem;
+            }
+            .card {
+                padding: 2.5rem;
             }
             .task-section {
                 display: grid;
                 grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-                gap: 2.5rem;
+                gap: 2rem;
             }
             .add-task-btn {
                 width: auto;
-            }
-            .braindump-section {
-                grid-column: 1 / -1;
-                order: initial;
             }
         }
     </style>
@@ -264,21 +287,14 @@
 
     <div class="container">
         
-        <div class="card sidebar">
-            <h2>Calendar</h2>
-            <div id="calendar" class="calendar"></div>
-            
-            <hr style="border: 0; height: 1px; background-color: #e3e8ee; margin: 2rem 0;">
-            
-            <h2>Daily Quote</h2>
+        <div class="card header-card">
             <div id="quote-container">
                 <p id="quote-text"></p>
                 <cite id="quote-source"></cite>
             </div>
-            
-            <button id="reset-button" class="reset-btn">Reset All Tasks</button>
+            <div id="today-date-container" class="today-date"></div>
         </div>
-        
+
         <div class="card main-content">
             <header>
                 <h1>My To-Do List</h1>
@@ -286,29 +302,33 @@
             
             <section class="task-section">
                 <div>
-                    <h2>Daily Goals</h2>
+                    <h3>Daily Goals</h3>
                     <ul id="daily-list" class="task-list"></ul>
                     <button class="add-task-btn" data-type="daily">Add Daily Task</button>
                 </div>
                 
                 <div>
-                    <h2>Weekly Goals</h2>
+                    <h3>Weekly Goals</h3>
                     <ul id="weekly-list" class="task-list"></ul>
                     <button class="add-task-btn" data-type="weekly">Add Weekly Task</button>
                 </div>
                 
                 <div>
-                    <h2>Monthly Goals</h2>
+                    <h3>Monthly Goals</h3>
                     <ul id="monthly-list" class="task-list"></ul>
                     <button class="add-task-btn" data-type="monthly">Add Monthly Task</button>
                 </div>
                 
                 <div class="braindump-section">
-                    <h2>Braindump / Ideas</h2>
+                    <h3>Braindump / Ideas</h3>
                     <ul id="braindump-list" class="task-list braindump-list"></ul>
                     <button class="add-task-btn add-braindump-btn" data-type="braindump">Add Idea</button>
                 </div>
             </section>
+        </div>
+        
+        <div class="card footer-card">
+            <button id="reset-button" class="reset-btn">Reset All Tasks</button>
         </div>
         
     </div>
@@ -322,35 +342,59 @@
             { text: "Patience is a key to relief.", source: "Prophet Muhammad (peace be upon him)" },
             { text: "The successful one is he who purifies his soul.", source: "Qur'an 91:9" },
             { text: "Prayer is the cornerstone of religion.", source: "Prophet Muhammad (peace be upon him)" },
+            { text: "And We have certainly created man and know what his soul whispers to him, and We are closer to him than his jugular vein.", source: "Qur'an 50:16" },
+            { text: "Do not be sad, Allah is with us.", source: "Qur'an 9:40" },
+            { text: "The most beloved of deeds to Allah are those that are continuous, even if they are few.", source: "Prophet Muhammad (peace be upon him)" },
+            { text: "The world is but a bridge; pass over it, but build no houses upon it.", source: "Prophet Muhammad (peace be upon him)" },
+            { text: "Knowledge is not that which is memorized, but that which benefits.", source: "Imam Ash-Shafi'i" },
+            { text: "The strong man is not the one who can wrestle, but the one who can control himself when he is angry.", source: "Prophet Muhammad (peace be upon him)" },
+            { text: "Your remedy is within you, but you do not sense it. Your sickness is from you, but you do not perceive it.", source: "Imam Ali" },
+            { text: "Call upon Me, I will respond to you.", source: "Qur'an 40:60" },
+            { text: "The most beloved of places to Allah is the mosque.", source: "Prophet Muhammad (peace be upon him)" },
+            { text: "The greatest gift is the gift of knowledge.", source: "Prophet Muhammad (peace be upon him)" },
+            { text: "The heart that is most beloved to Allah is the most tender and pure.", source: "Prophet Muhammad (peace be upon him)" },
+            { text: "Be like a tree, let the people throw stones at you but give them fruit.", source: "Abu Bakr" },
+            { text: "Verily, in the remembrance of Allah do hearts find rest.", source: "Qur'an 13:28" },
+            { text: "The cure for ignorance is to question.", source: "Prophet Muhammad (peace be upon him)" },
+            { text: "Fear Allah wherever you are.", source: "Prophet Muhammad (peace be upon him)" },
+            { text: "The pen has been lifted, and the scrolls have dried.", source: "Prophet Muhammad (peace be upon him)" },
+            { text: "Paradise lies under the feet of mothers.", source: "Prophet Muhammad (peace be upon him)" },
+            { text: "Charity does not decrease wealth.", source: "Prophet Muhammad (peace be upon him)" },
+            { text: "Speak a good word or remain silent.", source: "Prophet Muhammad (peace be upon him)" },
+            { text: "Do not judge your brother.", source: "Prophet Muhammad (peace be upon him)" },
+            { text: "A believer is a mirror to another believer.", source: "Prophet Muhammad (peace be upon him)" },
+            { text: "Allah is the light of the heavens and the earth.", source: "Qur'an 24:35" },
+            { text: "Do not be too sweet lest you be swallowed up, and not too bitter lest you be spit out.", source: "Sufyan al-Thawri" },
+            { text: "The food of one person is enough for two.", source: "Prophet Muhammad (peace be upon him)" },
+            { text: "The worst of evils is a long tongue.", source: "Imam Ali" },
+            { text: "He who has no mercy on others, will not be shown mercy by Allah.", source: "Prophet Muhammad (peace be upon him)" },
+            { text: "The greatest sin is to lie.", source: "Prophet Muhammad (peace be upon him)" },
+            { text: "The world is a prison for the believer and a paradise for the disbeliever.", source: "Prophet Muhammad (peace be upon him)" },
+            { text: "Seek knowledge from the cradle to the grave.", source: "Prophet Muhammad (peace be upon him)" },
+            { text: "The wise man is he who controls his tongue.", source: "Prophet Muhammad (peace be upon him)" },
+            { text: "Allah is with you wherever you are.", source: "Qur'an 57:4" },
+            { text: "The remembrance of Allah is the greatest.", source: "Qur'an 29:45" },
+            { text: "The best of you are those who are best to their families.", source: "Prophet Muhammad (peace be upon him)" },
+            { text: "The most beautiful thing in the world is a happy family.", source: "Prophet Muhammad (peace be upon him)" },
+            { text: "A good word is a charity.", source: "Prophet Muhammad (peace be upon him)" },
+            { text: "The true wealth is the wealth of the soul.", source: "Prophet Muhammad (peace be upon him)" },
+            { text: "Modesty is a part of faith.", source: "Prophet Muhammad (peace be upon him)" },
+            { text: "Do not despair of the mercy of Allah.", source: "Qur'an 39:53" },
+            { text: "The best of charity is that which is given for the sake of Allah.", source: "Prophet Muhammad (peace be upon him)" },
+            { text: "The greatest of all gifts is the gift of faith.", source: "Prophet Muhammad (peace be upon him)" },
+            { text: "The one who is a good companion is a blessing.", source: "Prophet Muhammad (peace be upon him)" },
+            { text: "The love of the Prophet is a part of faith.", source: "Prophet Muhammad (peace be upon him)" },
+            { text: "The one who is merciful to others will be shown mercy by Allah.", source: "Prophet Muhammad (peace be upon him)" },
         ];
-
-        // Functions to handle calendar
-        const calendarEl = document.getElementById('calendar');
-        function renderCalendar() {
-            const now = new Date();
-            const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
-            const today = now.getDate();
-            const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-
-            calendarEl.innerHTML = '';
-            dayNames.forEach(day => {
-                const dayEl = document.createElement('div');
-                dayEl.textContent = day;
-                calendarEl.appendChild(dayEl);
-            });
-
-            for (let i = 1; i <= daysInMonth; i++) {
-                const dayEl = document.createElement('div');
-                dayEl.textContent = i;
-                if (i === today) {
-                    dayEl.classList.add('current-day');
-                }
-                calendarEl.appendChild(dayEl);
-            }
-        }
-        renderCalendar();
         
-        // Functions to handle daily quote
+        const todayDateEl = document.getElementById('today-date-container');
+        function displayTodayDate() {
+            const today = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            todayDateEl.textContent = today.toLocaleDateString('en-US', options);
+        }
+        displayTodayDate();
+        
         const quoteTextEl = document.getElementById('quote-text');
         const quoteSourceEl = document.getElementById('quote-source');
         
@@ -362,7 +406,6 @@
         }
         displayDailyQuote();
         
-        // Functions to handle tasks
         const lists = {
             daily: document.getElementById('daily-list'),
             weekly: document.getElementById('weekly-list'),
@@ -400,7 +443,7 @@
             if (!storedTasks) return;
             
             for (const type in storedTasks) {
-                lists[type].innerHTML = ''; // Clear existing list items
+                lists[type].innerHTML = '';
                 storedTasks[type].forEach(task => {
                     createTaskItem(task.text, task.completed, type);
                 });
@@ -420,10 +463,9 @@
             textInput.classList.toggle('completed-task', isCompleted);
             
             const deleteBtn = document.createElement('button');
-            deleteBtn.innerHTML = '&times;';
+            deleteBtn.innerHTML = '<i class="fas fa-trash-alt"></i>';
             deleteBtn.classList.add('delete-btn');
             
-            // Event Listeners for new elements
             checkbox.addEventListener('change', () => {
                 textInput.classList.toggle('completed-task', checkbox.checked);
                 saveTasks();
@@ -459,7 +501,6 @@
             }
         });
 
-        // Initial render
         renderTasks();
 
     </script>
