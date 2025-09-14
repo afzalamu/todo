@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My To-Do List</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        :root {
+            --primary-color: #4b6cb7;
+            --secondary-color: #182848;
+            --accent-color: #ef476f;
+            --text-color: #2c3e50;
+            --bg-color: #f0f4f8;
+            --card-bg: #ffffff;
+            --card-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding: 1rem;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
+            padding: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        h1, h2, h3 {
+            color: var(--secondary-color);
+            font-weight: 600;
+            margin-top: 0;
+            margin-bottom: 1rem;
+        }
+
+        #quote-container {
+            text-align: center;
+            font-style: italic;
+            margin-bottom: 1.5rem;
+        }
+        
+        #quote-container p {
+            font-size: 1.1rem;
+            color: var(--primary-color);
+            font-weight: 300;
+        }
+        
+        #quote-container cite {
+            display: block;
+            margin-top: 0.5rem;
+            color: #95a5a6;
+            font-style: normal;
+        }
+
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .calendar div {
+            padding: 0.5rem 0;
+            border-radius: 8px;
+            background-color: #e3e8ee;
+            transition: background-color 0.3s;
+        }
+        
+        .calendar div:hover {
+            background-color: #d1d9e6;
+        }
+
+        .calendar .current-day {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: bold;
+        }
+
+        .task-section {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .braindump-section {
+            order: 4; /* Ensures this section appears last on a mobile layout */
+        }
+        
+        .task-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .task-list li {
+            background-color: var(--bg-color);
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            transition: background-color 0.3s;
+        }
+
+        .task-list li:hover {
+            background-color: #e3e8ee;
+        }
+
+        .task-list input[type="text"] {
+            border: none;
+            background: transparent;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            flex-grow: 1;
+        }
+
+        .task-list input[type="text"]:focus {
+            outline: none;
+        }
+        
+        .task-list input[type="checkbox"] {
+            margin-right: 1rem;
+            appearance: none;
+            width: 1.5rem;
+            height: 1.5rem;
+            border: 2px solid var(--primary-color);
+            border-radius: 50%;
+            cursor: pointer;
+            position: relative;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+        
+        .task-list input[type="checkbox"]:checked {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+        
+        .task-list input[type="checkbox"]:checked::after {
+            content: '✓';
+            color: white;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1rem;
+        }
+
+        .completed-task {
+            text-decoration: line-through;
+            color: #95a5a6;
+        }
+        
+        .braindump-list li {
+            background-color: #e8f0f7;
+        }
+
+        .add-task-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-weight: 600;
+            width: 100%;
+            margin-top: 0.5rem;
+        }
+
+        .add-task-btn:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .add-braindump-btn {
+            background-color: #6a89cc;
+        }
+        
+        .add-braindump-btn:hover {
+            background-color: #4a69ad;
+        }
+
+        .delete-btn {
+            background: none;
+            border: none;
+            color: #95a5a6;
+            cursor: pointer;
+            font-size: 1.2rem;
+            margin-left: 1rem;
+            transition: color 0.3s;
+        }
+        
+        .delete-btn:hover {
+            color: var(--accent-color);
+        }
+
+        .reset-btn {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 2rem;
+            display: block;
+            width: 100%;
+            text-align: center;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+        
+        .reset-btn:hover {
+            background-color: #c0392b;
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                display: grid;
+                grid-template-columns: 1fr 3fr;
+                gap: 2.5rem;
+                max-width: 1200px;
+            }
+            .task-section {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 2.5rem;
+            }
+            .add-task-btn {
+                width: auto;
+            }
+            .braindump-section {
+                grid-column: 1 / -1;
+                order: initial;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <div class="card sidebar">
+            <h2>Calendar</h2>
+            <div id="calendar" class="calendar"></div>
+            
+            <hr style="border: 0; height: 1px; background-color: #e3e8ee; margin: 2rem 0;">
+            
+            <h2>Daily Quote</h2>
+            <div id="quote-container">
+                <p id="quote-text"></p>
+                <cite id="quote-source"></cite>
+            </div>
+            
+            <button id="reset-button" class="reset-btn">Reset All Tasks</button>
+        </div>
+        
+        <div class="card main-content">
+            <header>
+                <h1>My To-Do List</h1>
+            </header>
+            
+            <section class="task-section">
+                <div>
+                    <h2>Daily Goals</h2>
+                    <ul id="daily-list" class="task-list"></ul>
+                    <button class="add-task-btn" data-type="daily">Add Daily Task</button>
+                </div>
+                
+                <div>
+                    <h2>Weekly Goals</h2>
+                    <ul id="weekly-list" class="task-list"></ul>
+                    <button class="add-task-btn" data-type="weekly">Add Weekly Task</button>
+                </div>
+                
+                <div>
+                    <h2>Monthly Goals</h2>
+                    <ul id="monthly-list" class="task-list"></ul>
+                    <button class="add-task-btn" data-type="monthly">Add Monthly Task</button>
+                </div>
+                
+                <div class="braindump-section">
+                    <h2>Braindump / Ideas</h2>
+                    <ul id="braindump-list" class="task-list braindump-list"></ul>
+                    <button class="add-task-btn add-braindump-btn" data-type="braindump">Add Idea</button>
+                </div>
+            </section>
+        </div>
+        
+    </div>
+
+    <script>
+        const quotes = [
+            { text: "Allah does not burden a soul beyond that it can bear.", source: "Qur'an 2:286" },
+            { text: "The best among you are those who have the best character.", source: "Prophet Muhammad (peace be upon him)" },
+            { text: "Verily, with every hardship, there is ease.", source: "Qur'an 94:6" },
+            { text: "Do not lose hope, nor be sad.", source: "Qur'an 3:139" },
+            { text: "Patience is a key to relief.", source: "Prophet Muhammad (peace be upon him)" },
+            { text: "The successful one is he who purifies his soul.", source: "Qur'an 91:9" },
+            { text: "Prayer is the cornerstone of religion.", source: "Prophet Muhammad (peace be upon him)" },
+        ];
+
+        // Functions to handle calendar
+        const calendarEl = document.getElementById('calendar');
+        function renderCalendar() {
+            const now = new Date();
+            const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+            const today = now.getDate();
+            const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+            calendarEl.innerHTML = '';
+            dayNames.forEach(day => {
+                const dayEl = document.createElement('div');
+                dayEl.textContent = day;
+                calendarEl.appendChild(dayEl);
+            });
+
+            for (let i = 1; i <= daysInMonth; i++) {
+                const dayEl = document.createElement('div');
+                dayEl.textContent = i;
+                if (i === today) {
+                    dayEl.classList.add('current-day');
+                }
+                calendarEl.appendChild(dayEl);
+            }
+        }
+        renderCalendar();
+        
+        // Functions to handle daily quote
+        const quoteTextEl = document.getElementById('quote-text');
+        const quoteSourceEl = document.getElementById('quote-source');
+        
+        function displayDailyQuote() {
+            const randomIndex = Math.floor(Math.random() * quotes.length);
+            const quote = quotes[randomIndex];
+            quoteTextEl.textContent = quote.text;
+            quoteSourceEl.textContent = quote.source;
+        }
+        displayDailyQuote();
+        
+        // Functions to handle tasks
+        const lists = {
+            daily: document.getElementById('daily-list'),
+            weekly: document.getElementById('weekly-list'),
+            monthly: document.getElementById('monthly-list'),
+            braindump: document.getElementById('braindump-list')
+        };
+        const addTaskButtons = document.querySelectorAll('.add-task-btn');
+        const resetButton = document.getElementById('reset-button');
+        
+        function saveTasks() {
+            const tasks = {
+                daily: [],
+                weekly: [],
+                monthly: [],
+                braindump: []
+            };
+            
+            for (const type in lists) {
+                const items = lists[type].querySelectorAll('li');
+                items.forEach(item => {
+                    const checkbox = item.querySelector('input[type="checkbox"]');
+                    const text = item.querySelector('input[type="text"]');
+                    tasks[type].push({
+                        text: text.value,
+                        completed: checkbox.checked
+                    });
+                });
+            }
+            
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+        }
+
+        function renderTasks() {
+            const storedTasks = JSON.parse(localStorage.getItem('tasks'));
+            if (!storedTasks) return;
+            
+            for (const type in storedTasks) {
+                lists[type].innerHTML = ''; // Clear existing list items
+                storedTasks[type].forEach(task => {
+                    createTaskItem(task.text, task.completed, type);
+                });
+            }
+        }
+
+        function createTaskItem(taskText, isCompleted, type) {
+            const li = document.createElement('li');
+            
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.checked = isCompleted;
+            
+            const textInput = document.createElement('input');
+            textInput.type = 'text';
+            textInput.value = taskText;
+            textInput.classList.toggle('completed-task', isCompleted);
+            
+            const deleteBtn = document.createElement('button');
+            deleteBtn.innerHTML = '&times;';
+            deleteBtn.classList.add('delete-btn');
+            
+            // Event Listeners for new elements
+            checkbox.addEventListener('change', () => {
+                textInput.classList.toggle('completed-task', checkbox.checked);
+                saveTasks();
+            });
+
+            textInput.addEventListener('input', saveTasks);
+            
+            deleteBtn.addEventListener('click', () => {
+                li.remove();
+                saveTasks();
+            });
+            
+            li.appendChild(checkbox);
+            li.appendChild(textInput);
+            li.appendChild(deleteBtn);
+            lists[type].appendChild(li);
+        }
+        
+        addTaskButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const type = button.dataset.type;
+                createTaskItem('', false, type);
+                saveTasks();
+            });
+        });
+
+        resetButton.addEventListener('click', () => {
+            if (confirm("Are you sure you want to reset all tasks? This cannot be undone.")) {
+                localStorage.removeItem('tasks');
+                for (const type in lists) {
+                    lists[type].innerHTML = '';
+                }
+            }
+        });
+
+        // Initial render
+        renderTasks();
+
+    </script>
+
+</body>
+</html>
