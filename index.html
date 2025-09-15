@@ -16,7 +16,7 @@
             --light-text-color: #757575; /* Gray */
             --bg-color: #F8F9FA; /* Off-white background */
             --card-bg: #FFFFFF; /* White */
-            --card-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            --card-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
             --border-color: #E0E0E0;
         }
 
@@ -24,7 +24,7 @@
             --primary-color: #E3E3E3;
             --secondary-color: #F44336;
             --accent-color: #FFB74D;
-            --danger-color: #F87171;
+            --danger-color: #EF9A9A;
             --text-color: #E3E3E3;
             --light-text-color: #B0B0B0;
             --bg-color: #1A1A1A;
@@ -176,6 +176,12 @@
             gap: 1.5rem;
         }
         
+        .task-list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
         .task-list {
             list-style: none;
             padding: 0;
@@ -280,7 +286,7 @@
         }
         
         .add-braindump-btn:hover {
-            background-color: #212121;
+            background-color: #2C3E50;
         }
 
         .delete-btn {
@@ -303,14 +309,15 @@
             background-color: transparent;
             border: 1px solid var(--danger-color);
             color: var(--danger-color);
-            padding: 0.5rem;
-            width: 40px;
-            height: 40px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             cursor: pointer;
             transition: background-color 0.2s, color 0.2s;
-            margin-top: 0.5rem;
         }
 
         .reset-section-btn:hover {
@@ -403,31 +410,39 @@
             
             <section class="task-section">
                 <div>
-                    <h3>Daily Goals</h3>
+                    <div class="task-list-header">
+                        <h3>Daily Goals</h3>
+                        <button class="reset-section-btn" data-type="daily"><i class="fas fa-redo"></i></button>
+                    </div>
                     <ul id="daily-list" class="task-list"></ul>
                     <button class="add-task-btn" data-type="daily">Add Daily Task</button>
-                    <button class="reset-section-btn" data-type="daily"><i class="fas fa-redo"></i></button>
                 </div>
                 
                 <div>
-                    <h3>Weekly Goals</h3>
+                    <div class="task-list-header">
+                        <h3>Weekly Goals</h3>
+                        <button class="reset-section-btn" data-type="weekly"><i class="fas fa-redo"></i></button>
+                    </div>
                     <ul id="weekly-list" class="task-list"></ul>
                     <button class="add-task-btn" data-type="weekly">Add Weekly Task</button>
-                    <button class="reset-section-btn" data-type="weekly"><i class="fas fa-redo"></i></button>
                 </div>
                 
                 <div>
-                    <h3>Monthly Goals</h3>
+                    <div class="task-list-header">
+                        <h3>Monthly Goals</h3>
+                        <button class="reset-section-btn" data-type="monthly"><i class="fas fa-redo"></i></button>
+                    </div>
                     <ul id="monthly-list" class="task-list"></ul>
                     <button class="add-task-btn" data-type="monthly">Add Monthly Task</button>
-                    <button class="reset-section-btn" data-type="monthly"><i class="fas fa-redo"></i></button>
                 </div>
                 
                 <div class="braindump-section">
-                    <h3>Braindump / Ideas</h3>
+                    <div class="task-list-header">
+                        <h3>Braindump / Ideas</h3>
+                        <button class="reset-section-btn" data-type="braindump"><i class="fas fa-redo"></i></button>
+                    </div>
                     <ul id="braindump-list" class="task-list braindump-list"></ul>
                     <button class="add-task-btn add-braindump-btn" data-type="braindump">Add Idea</button>
-                    <button class="reset-section-btn" data-type="braindump"><i class="fas fa-redo"></i></button>
                 </div>
             </section>
         </div>
