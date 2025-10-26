@@ -45,6 +45,21 @@ header.topbar {
     font-size: 1.2em;
 }
 
+.top-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Spacing between new text and theme toggle */
+}
+
+/* NEW: Style for Bismillah Text */
+.header-text {
+    font-size: 1.1em;
+    direction: rtl; /* Right-to-left for Arabic */
+    text-align: right;
+    font-family: 'Times New Roman', serif; /* Use a classic font */
+}
+
+
 .container {
     max-width: 900px;
     margin: 20px auto;
@@ -52,12 +67,6 @@ header.topbar {
 }
 
 /* ------------------ COMMON ELEMENTS ------------------ */
-
-/* --- Headings --- */
-h3, h4 {
-    margin: 0;
-    color: var(--text-color);
-}
 
 /* --- Cards --- */
 .card {
@@ -68,37 +77,33 @@ h3, h4 {
     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
 }
 
-.card-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-/* --- Grid Layout (for index.html) --- */
+/* --- Grid Layout (Compactness Fix) --- */
 .grid {
-    /* Auto-fit based on a 280px minimum size */
+    /* On mobile, stack them (1fr) */
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: 1fr; 
     gap: 20px;
 }
 
-/* Aspect Ratio Fix: On larger screens, force a 3-column structure for small cards */
-@media (min-width: 768px) {
+/* On wider screens (laptop), use two columns to maximize space */
+@media (min-width: 600px) {
     .grid {
-        grid-template-columns: repeat(3, 1fr); /* Force 3 equally sized columns */
+        grid-template-columns: 1fr 1fr; /* Two flexible columns */
     }
-    .card:not(.wide) {
-        /* Restrict the width of small cards for better readability */
-        max-width: 100%; 
-    }
+    /* Quick Note and Quick Links will share the space nicely */
     .card.wide {
-        grid-column: 1 / -1; /* Make wide cards span all three columns */
+        grid-column: 1 / -1; /* Make wide cards span all two columns */
     }
 }
+/* If you want to force all remaining cards onto one row (2 cards total), use: */
+/*
+.card:not(.wide) {
+    grid-column: span 1;
+}
+*/
 
 
-/* --- Buttons / Links --- */
+/* --- Buttons / Links (Rest of CSS remains the same) --- */
 .btn {
     background: var(--primary-color);
     color: white;
@@ -155,7 +160,7 @@ h3, h4 {
 }
 
 
-/* --- Form Elements --- */
+/* --- Form Elements (Rest of CSS remains the same) --- */
 input:not([type="checkbox"], [type="range"], [type="file"]), textarea {
     padding: 10px;
     border: 1px solid var(--border-color);
@@ -178,7 +183,7 @@ textarea {
     flex-grow: 1;
 }
 
-/* --- Lists --- */
+/* --- Lists (Rest of CSS remains the same) --- */
 .list {
     list-style: none;
     padding: 0;
@@ -194,12 +199,11 @@ textarea {
 .list li:last-child {
     border-bottom: none;
 }
-/* Style for the new quick links list */
 .list.link-list li {
     justify-content: flex-start;
 }
 .link-text {
-    color: var(--text-color); /* Use general text color */
+    color: var(--text-color);
     text-decoration: none;
 }
 .link-text:hover {
@@ -207,12 +211,7 @@ textarea {
     text-decoration: underline;
 }
 
-.quote {
-    font-style: italic;
-    color: var(--text-color); 
-}
-
-/* --- Habits Table --- */
+/* --- Habits Table (Rest of CSS remains the same) --- */
 .table-wrap {
     overflow-x: auto;
 }
@@ -237,14 +236,11 @@ textarea {
 }
 
 
-/* ------------------ NEW FEATURES STYLES ------------------ */
-
+/* ------------------ FOOTER & MISC ------------------ */
 .small-text {
     font-size: 0.75em;
     color: #6b7280; 
 }
-
-/* Goals Priority Dots */
 .priority-dot {
     height: 10px;
     width: 10px;
