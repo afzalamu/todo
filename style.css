@@ -83,7 +83,7 @@ h3, h4 {
 }
 
 .card.wide {
-    grid-column: 1 / -1; /* Make wide cards span all columns */
+    grid-column: 1 / -1; 
 }
 
 /* --- Buttons / Links --- */
@@ -184,7 +184,7 @@ textarea {
 }
 .quote {
     font-style: italic;
-    color: var(--text-color); /* Updated for dark mode support */
+    color: var(--text-color); 
 }
 
 /* --- Habits Table --- */
@@ -212,16 +212,15 @@ textarea {
 }
 
 
-/* ------------------ DASHBOARD ONLY (WITH FIXES) ------------------ */
+/* ------------------ DASHBOARD ONLY (MOOD CHART & STATS) ------------------ */
 
 .dashboard-container {
-    overflow-y: visible; /* Use visible for main scrolling, not auto */
+    overflow-y: visible;
 }
 
 .dashboard-container canvas {
-    /* FIX: Added height to better control chart size and prevent extreme stretching */
     max-height: 300px;
-    height: 250px; /* Explicit height for a better-looking chart area */
+    height: 250px; 
     width: 100% !important;
 }
 
@@ -248,4 +247,32 @@ textarea {
 .dashboard-container .stat-label {
     font-size: 14px;
     color: var(--text-color);
+}
+
+/* ------------------ NEW FEATURES STYLES ------------------ */
+
+.small-text {
+    font-size: 0.75em;
+    color: #6b7280; 
+}
+
+/* Goals Priority Dots */
+.priority-dot {
+    height: 10px;
+    width: 10px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.priority-dot.priority-high {
+    background-color: #ef4444; 
+}
+
+.priority-dot.priority-medium {
+    background-color: #f59e0b; 
+}
+
+.priority-dot.priority-low {
+    background-color: #10b981; 
 }
