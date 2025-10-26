@@ -48,17 +48,16 @@ header.topbar {
 .top-actions {
     display: flex;
     align-items: center;
-    gap: 15px; /* Spacing between new text and theme toggle */
+    gap: 15px; 
 }
 
-/* NEW: Style for Bismillah Text */
+/* Style for Bismillah Text */
 .header-text {
     font-size: 1.1em;
-    direction: rtl; /* Right-to-left for Arabic */
+    direction: rtl; 
     text-align: right;
-    font-family: 'Times New Roman', serif; /* Use a classic font */
+    font-family: 'Times New Roman', serif; 
 }
-
 
 .container {
     max-width: 900px;
@@ -75,36 +74,40 @@ header.topbar {
     margin-bottom: 20px;
     border-radius: 8px;
     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+    /* BUTTON FIX: Ensure cards don't overlap buttons outside them */
+    position: relative; 
 }
 
-/* --- Grid Layout (Compactness Fix) --- */
-.grid {
-    /* On mobile, stack them (1fr) */
+/* --- MAIN TWO-COLUMN LAYOUT FIX --- */
+.main-layout {
     display: grid;
-    grid-template-columns: 1fr; 
     gap: 20px;
 }
+/* Left column stacks cards, Right column stacks cards */
+.left-column, .right-column {
+    display: flex;
+    flex-direction: column;
+}
+/* Ensure right column fills remaining space */
+.right-column .card.wide {
+    flex-grow: 1; 
+}
 
-/* On wider screens (laptop), use two columns to maximize space */
-@media (min-width: 600px) {
-    .grid {
-        grid-template-columns: 1fr 1fr; /* Two flexible columns */
-    }
-    /* Quick Note and Quick Links will share the space nicely */
-    .card.wide {
-        grid-column: 1 / -1; /* Make wide cards span all two columns */
+/* Layout for wide screens (laptop) */
+@media (min-width: 768px) {
+    .main-layout {
+        /* Set two columns: Left (narrow, for small cards) and Right (wider, for trackers) */
+        grid-template-columns: 1fr 2fr; 
     }
 }
-/* If you want to force all remaining cards onto one row (2 cards total), use: */
-/*
-.card:not(.wide) {
-    grid-column: span 1;
-}
-*/
 
 
-/* --- Buttons / Links (Rest of CSS remains the same) --- */
+/* --- Buttons / Links (Functionality Fix) --- */
 .btn {
+    /* BUTTON FIX: Ensure buttons are clickable by layering them above other content */
+    position: relative;
+    z-index: 2; 
+
     background: var(--primary-color);
     color: white;
     padding: 8px 15px;
@@ -115,6 +118,38 @@ header.topbar {
     font-size: 14px;
     transition: background-color 0.2s;
 }
+/* ... rest of button styles remain the same ... */
+
+/* --- Habits Table (Functionality Fix) --- */
+.habit-table {
+    /* BUTTON FIX: Ensure table and its contents (checkboxes) are clickable */
+    position: relative;
+    z-index: 1; 
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+.habit-table input[type="checkbox"] {
+    position: relative;
+    z-index: 2; /* Force checkboxes above cells */
+    cursor: pointer;
+}
+
+
+/* ------------------ REST OF STYLES (UNCHANGED) ------------------ */
+
+h3, h4 {
+    margin: 0;
+    color: var(--text-color);
+}
+
+.card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
 .btn:hover {
     background: var(--primary-hover);
 }
@@ -160,7 +195,7 @@ header.topbar {
 }
 
 
-/* --- Form Elements (Rest of CSS remains the same) --- */
+/* --- Form Elements --- */
 input:not([type="checkbox"], [type="range"], [type="file"]), textarea {
     padding: 10px;
     border: 1px solid var(--border-color);
@@ -183,7 +218,7 @@ textarea {
     flex-grow: 1;
 }
 
-/* --- Lists (Rest of CSS remains the same) --- */
+/* --- Lists --- */
 .list {
     list-style: none;
     padding: 0;
@@ -211,14 +246,9 @@ textarea {
     text-decoration: underline;
 }
 
-/* --- Habits Table (Rest of CSS remains the same) --- */
+/* --- Habits Table Styling --- */
 .table-wrap {
     overflow-x: auto;
-}
-.habit-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
 }
 .habit-table th, .habit-table td {
     padding: 8px;
@@ -230,9 +260,6 @@ textarea {
 }
 .habit-table td:not(:first-child) {
     text-align: center;
-}
-.habit-table input[type="checkbox"] {
-    cursor: pointer;
 }
 
 
