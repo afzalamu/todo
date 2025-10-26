@@ -1,25 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Learning Tracker</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Learning — Afzal</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header>
-    <h1>📚 Learning Tracker</h1>
-    <button id="themeToggle">🌙</button>
+  <header class="topbar">
+    <div class="brand">📚 Learning</div>
+    <div class="top-actions">
+      <button id="themeToggle" class="icon-btn">🌙</button>
+    </div>
   </header>
 
-  <main>
-    <div>
-      <input type="text" id="learnInput" placeholder="New skill or course...">
-      <button id="addLearn">Add</button>
+  <main class="container">
+    <div class="card">
+      <div class="row">
+        <input id="learnInput" placeholder="New skill, course, or book (e.g., PLL deep dive)" />
+        <button id="addLearn" class="btn">Add</button>
+      </div>
+      <ul id="learnList" class="list"></ul>
     </div>
-    <ul id="learnList"></ul>
 
-    <p><a href="index.html" class="button">⬅ Back</a></p>
+    <p class="nav"><a href="index.html" class="link">← Back</a></p>
   </main>
 
   <script src="script.js"></script>
