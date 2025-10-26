@@ -1,81 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>My Goals</title>
-  <style>
-    body {
-      font-family: "Poppins", sans-serif;
-      background: #fafafa;
-      color: #222;
-      margin: 0;
-      padding: 0;
-      transition: 0.3s;
-    }
-    [data-theme='dark'] {
-      background: #121212;
-      color: #eee;
-    }
-    header {
-      background: #007bff;
-      color: white;
-      padding: 1rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    a {
-      color: white;
-      text-decoration: none;
-      background: #00c2b8;
-      padding: 0.4rem 0.8rem;
-      border-radius: 6px;
-    }
-    main {
-      padding: 1.2rem;
-      max-width: 700px;
-      margin: auto;
-    }
-    ul {
-      list-style: none;
-      padding: 0;
-    }
-    li {
-      background: white;
-      margin: 0.4rem 0;
-      padding: 0.6rem;
-      border-radius: 8px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-    }
-    [data-theme='dark'] li {
-      background: #1f1f1f;
-    }
-    button {
-      background: #ff4d4d;
-      border: none;
-      color: white;
-      border-radius: 6px;
-      padding: 0.3rem 0.6rem;
-      cursor: pointer;
-    }
-    #themeToggle {
-      background: white;
-      color: #007bff;
-      border: none;
-      border-radius: 6px;
-      padding: 0.4rem 0.7rem;
-    }
-    input {
-      padding: 0.5rem;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      width: 75%;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header>
@@ -84,68 +13,12 @@
   </header>
 
   <main>
-    <div>
-      <input type="text" id="goalInput" placeholder="Add new goal...">
-      <button id="addGoal" style="background:#007bff;color:white;border:none;padding:0.5rem 1rem;border-radius:6px;">Add</button>
-    </div>
+    <input type="text" id="goalInput" placeholder="Add new goal...">
+    <button id="addGoal">Add</button>
     <ul id="goalList"></ul>
-
-    <p style="text-align:center;margin-top:2rem;">
-      <a href="index.html">⬅ Back to Home</a>
-    </p>
+    <p><a href="index.html" class="button">⬅ Back</a></p>
   </main>
 
-  <script>
-    // Theme toggle
-    const themeBtn = document.getElementById("themeToggle");
-    themeBtn.onclick = () => {
-      const current = document.documentElement.getAttribute("data-theme");
-      if (current === "dark") {
-        document.documentElement.setAttribute("data-theme", "light");
-        themeBtn.textContent = "🌙";
-      } else {
-        document.documentElement.setAttribute("data-theme", "dark");
-        themeBtn.textContent = "☀️";
-      }
-    };
-
-    const goalInput = document.getElementById("goalInput");
-    const addGoalBtn = document.getElementById("addGoal");
-    const goalList = document.getElementById("goalList");
-
-    function loadGoals() {
-      const goals = JSON.parse(localStorage.getItem("goals") || "[]");
-      goals.forEach(addGoalElement);
-    }
-
-    function addGoalElement(goalText) {
-      const li = document.createElement("li");
-      li.textContent = goalText;
-      const delBtn = document.createElement("button");
-      delBtn.textContent = "Delete";
-      delBtn.onclick = () => {
-        li.remove();
-        saveGoals();
-      };
-      li.appendChild(delBtn);
-      goalList.appendChild(li);
-    }
-
-    function saveGoals() {
-      const goals = Array.from(goalList.children).map(li => li.firstChild.textContent);
-      localStorage.setItem("goals", JSON.stringify(goals));
-    }
-
-    addGoalBtn.onclick = () => {
-      const val = goalInput.value.trim();
-      if (val) {
-        addGoalElement(val);
-        saveGoals();
-        goalInput.value = "";
-      }
-    };
-
-    loadGoals();
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
