@@ -1,59 +1,251 @@
 /* ------------------ GLOBAL ------------------ */
+/* --- THEME (Light/Dark Mode) --- */
+:root {
+    --bg-color: #f3f4f6;
+    --text-color: #333;
+    --card-bg: white;
+    --primary-color: #2563eb;
+    --primary-hover: #1d4ed8;
+    --danger-color: #dc2626;
+    --border-color: #e5e7eb;
+}
+
+[data-theme='dark'] {
+    --bg-color: #1f2937;
+    --text-color: #f3f4f6;
+    --card-bg: #374151;
+    --primary-color: #60a5fa;
+    --primary-hover: #3b82f6;
+    --danger-color: #ef4444;
+    --border-color: #4b5563;
+}
+
 body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f3f4f6;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: var(--bg-color);
+    color: var(--text-color);
 }
 
 /* Topbar common */
 header.topbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 20px;
-  background: #2563eb;
-  color: white;
-  position: sticky;
-  top: 0;
-  z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background: var(--primary-color);
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.brand {
+    font-weight: bold;
+    font-size: 1.2em;
 }
 
 .container {
-  max-width: 900px;
-  margin: 20px auto;
-  padding: 0 10px;
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 0 10px;
 }
 
-/* ------------------ DASHBOARD ONLY ------------------ */
+/* ------------------ COMMON ELEMENTS ------------------ */
+
+/* --- Headings --- */
+h3, h4 {
+    margin: 0;
+    color: var(--text-color);
+}
+
+/* --- Cards --- */
+.card {
+    background: var(--card-bg);
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+}
+
+.card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+/* --- Grid Layout (for index.html) --- */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.card.wide {
+    grid-column: 1 / -1; /* Make wide cards span all columns */
+}
+
+/* --- Buttons / Links --- */
+.btn {
+    background: var(--primary-color);
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+.btn:hover {
+    background: var(--primary-hover);
+}
+.btn.small {
+    padding: 5px 10px;
+    font-size: 12px;
+}
+.btn.danger {
+    background: var(--danger-color);
+}
+.btn.danger:hover {
+    background: #c51d1d;
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
+}
+
+.link-btn, .link {
+    background: none;
+    border: none;
+    color: var(--primary-color);
+    cursor: pointer;
+    text-decoration: none;
+    padding: 0;
+}
+.link-btn:hover, .link:hover {
+    text-decoration: underline;
+}
+.nav {
+    text-align: center;
+    margin-top: 20px;
+}
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+
+/* --- Form Elements --- */
+input:not([type="checkbox"], [type="range"], [type="file"]), textarea {
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 16px;
+    width: 100%;
+    box-sizing: border-box;
+    background: var(--card-bg);
+    color: var(--text-color);
+}
+textarea {
+    resize: vertical;
+}
+.row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+.row input {
+    flex-grow: 1;
+}
+
+/* --- Lists --- */
+.list {
+    list-style: none;
+    padding: 0;
+    margin-top: 15px;
+}
+.list li {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.list li:last-child {
+    border-bottom: none;
+}
+.quote {
+    font-style: italic;
+    color: var(--text-color); /* Updated for dark mode support */
+}
+
+/* --- Habits Table --- */
+.table-wrap {
+    overflow-x: auto;
+}
+.habit-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+.habit-table th, .habit-table td {
+    padding: 8px;
+    text-align: left;
+    border: 1px solid var(--border-color);
+}
+.habit-table th {
+    background: var(--border-color);
+}
+.habit-table td:not(:first-child) {
+    text-align: center;
+}
+.habit-table input[type="checkbox"] {
+    cursor: pointer;
+}
+
+
+/* ------------------ DASHBOARD ONLY (WITH FIXES) ------------------ */
+
 .dashboard-container {
-  overflow-y: auto; /* scrollable */
+    overflow-y: visible; /* Use visible for main scrolling, not auto */
 }
 
 .dashboard-container canvas {
-  max-height: 250px; /* limit chart height */
-  width: 100% !important;
+    /* FIX: Added height to better control chart size and prevent extreme stretching */
+    max-height: 300px;
+    height: 250px; /* Explicit height for a better-looking chart area */
+    width: 100% !important;
 }
 
 .dashboard-container .card {
-  background: white;
-  padding: 15px;
-  margin-bottom: 20px;
-  border-radius: 8px;
-  box-shadow: 0 1px 5px rgba(0,0,0,0.1);
+    background: var(--card-bg);
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.1);
 }
 
 .dashboard-container .row.stats {
-  display: flex;
-  justify-content: space-around;
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
 }
 
 .dashboard-container .stat-num {
-  font-size: 28px;
-  font-weight: bold;
-  color: #2563eb;
+    font-size: 28px;
+    font-weight: bold;
+    color: var(--primary-color);
 }
 
 .dashboard-container .stat-label {
-  font-size: 14px;
-  color: #555;
+    font-size: 14px;
+    color: var(--text-color);
 }
