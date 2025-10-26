@@ -1,9 +1,11 @@
+/* ------------------ GLOBAL ------------------ */
 body {
   margin: 0;
   font-family: Arial, sans-serif;
   background: #f3f4f6;
 }
 
+/* Topbar common */
 header.topbar {
   display: flex;
   justify-content: space-between;
@@ -20,10 +22,19 @@ header.topbar {
   max-width: 900px;
   margin: 20px auto;
   padding: 0 10px;
-  overflow-y: auto; /* make it scrollable */
 }
 
-.card {
+/* ------------------ DASHBOARD ONLY ------------------ */
+.dashboard-container {
+  overflow-y: auto; /* scrollable */
+}
+
+.dashboard-container canvas {
+  max-height: 250px; /* limit chart height */
+  width: 100% !important;
+}
+
+.dashboard-container .card {
   background: white;
   padding: 15px;
   margin-bottom: 20px;
@@ -31,28 +42,18 @@ header.topbar {
   box-shadow: 0 1px 5px rgba(0,0,0,0.1);
 }
 
-canvas {
-  max-height: 250px;  /* limit canvas height */
-  width: 100% !important;
-}
-
-.row.stats {
+.dashboard-container .row.stats {
   display: flex;
   justify-content: space-around;
 }
 
-.stat-num {
+.dashboard-container .stat-num {
   font-size: 28px;
   font-weight: bold;
   color: #2563eb;
 }
 
-.stat-label {
+.dashboard-container .stat-label {
   font-size: 14px;
   color: #555;
-}
-
-.link {
-  color: #2563eb;
-  text-decoration: none;
 }
