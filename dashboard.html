@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Dashboard — Afzal</title>
-  <link rel="stylesheet" href="style.css" />
-  <!-- Chart.js CDN (for offline use you can download and serve locally) -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — Life Tracker</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Chart.js CDN -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
@@ -17,16 +17,19 @@
   </header>
 
   <main class="container">
+    <!-- Habit Completion -->
     <div class="card">
       <h4>Weekly Habit Completion (%)</h4>
       <canvas id="habitChart" height="120"></canvas>
     </div>
 
+    <!-- Mood Trend -->
     <div class="card">
-      <h4>Mood Trend (last 7 entries)</h4>
+      <h4>Mood Trend (Last 7 Entries)</h4>
       <canvas id="moodChart" height="120"></canvas>
     </div>
 
+    <!-- Stats -->
     <div class="card row stats">
       <div>
         <div class="stat-num" id="goalsCount">0</div>
@@ -42,40 +45,50 @@
       </div>
     </div>
 
-    <p class="nav"><a href="index.html" class="link">← Back</a></p>
+    <p class="nav"><a href="index.html" class="link">← Back to Home</a></p>
   </main>
 
   <script src="script.js"></script>
   <script>
-    // Build charts after script.js runs and loads data
     document.addEventListener('DOMContentLoaded', () => {
-      // HABIT CHART: compute % completion for each day (Mon..Sun)
+      // --- Habits Chart ---
       const habits = JSON.parse(localStorage.getItem('habits') || '[]');
       const totals = [0,0,0,0,0,0,0];
-      habits.forEach(h => { h.days.forEach((d,i)=> { if (d) totals[i]++; }) });
+      habits.forEach(h => h.days.forEach((d,i)=> { if(d) totals[i]++; }));
       const perc = totals.map(t => habits.length ? Math.round((t / habits.length) * 100) : 0);
-      const ctx = document.getElementById('habitChart').getContext('2d');
-      new Chart(ctx, {
+
+      const ctx1 = document.getElementById('habitChart').getContext('2d');
+      new Chart(ctx1, {
         type: 'bar',
         data: {
           labels: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
-          datasets: [{ label: 'Completion %', data: perc }]
+          datasets: [{ label: 'Completion %', data: perc, backgroundColor: '#2563eb' }]
         },
         options: { responsive:true, maintainAspectRatio:false, scales:{ y:{ beginAtZero:true, max:100 } } }
       });
 
-      // MOOD CHART: last up to 7 moods (we convert to simple scores by length as proxy)
+      // --- Mood Chart ---
       const moods = JSON.parse(localStorage.getItem('moods') || '[]').slice(-7);
       const moodLabels = moods.map((m,i)=> `#${i+1}`);
-      const moodVals = moods.map(m => Math.min(10, Math.max(1, Math.round(m.length / 6)))); // crude mapping
+      const moodVals = moods.map(m => Math.min(10, Math.max(1, Math.round(m.length / 6))));
       const ctx2 = document.getElementById('moodChart').getContext('2d');
       new Chart(ctx2, {
         type: 'line',
-        data: { labels: moodLabels, datasets: [{ label:'Mood (proxy)', data: moodVals, fill:false, tension:0.3 }] },
+        data: {
+          labels: moodLabels,
+          datasets: [{
+            label: 'Mood (proxy)',
+            data: moodVals,
+            borderColor: '#2563eb',
+            fill: false,
+            tension: 0.3,
+            pointBackgroundColor: '#2563eb'
+          }]
+        },
         options: { responsive:true, maintainAspectRatio:false, scales:{ y:{ beginAtZero:true, max:10 } } }
       });
 
-      // Stats
+      // --- Stats ---
       document.getElementById('goalsCount').textContent = (JSON.parse(localStorage.getItem('goals')||'[]')).length;
       document.getElementById('learnCount').textContent = (JSON.parse(localStorage.getItem('learning')||'[]')).length;
       document.getElementById('reviewsCount').textContent = (JSON.parse(localStorage.getItem('reviews')||'[]')).length;
