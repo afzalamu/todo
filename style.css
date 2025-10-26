@@ -32,7 +32,7 @@ header.topbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px;
+    padding: 10px 15px; /* Optimized padding for mobile */
     background: var(--primary-color);
     color: white;
     position: sticky;
@@ -48,7 +48,7 @@ header.topbar {
 .container {
     max-width: 900px;
     margin: 20px auto;
-    padding: 0 10px;
+    padding: 0 15px; /* Optimized padding for mobile */
 }
 
 /* ------------------ COMMON ELEMENTS ------------------ */
@@ -77,14 +77,27 @@ h3, h4 {
 
 /* --- Grid Layout (for index.html) --- */
 .grid {
+    /* Use a flexible grid that can fit a column of at least 300px */
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 20px;
 }
 
-.card.wide {
-    grid-column: 1 / -1; 
+/* On wider screens (laptops), restrict non-wide cards to one column */
+/* and let the wide cards take up the full space (2 columns). */
+@media (min-width: 768px) {
+    .grid {
+        grid-template-columns: 1fr 1fr; /* Set up two distinct columns */
+    }
+    .card:not(.wide) {
+        /* This ensures the Motivation/Note cards stay in one column and don't stretch */
+        max-width: 100%; 
+    }
+    .card.wide {
+        grid-column: 1 / -1; /* Make wide cards span all two columns */
+    }
 }
+
 
 /* --- Buttons / Links --- */
 .btn {
