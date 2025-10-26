@@ -1,57 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Afzal’s Life Tracker</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Afzal — Life Tracker</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header>
-    <h1>🌱 Afzal’s Life Tracker</h1>
-    <button id="themeToggle">🌙</button>
+  <header class="topbar">
+    <div class="brand">🌱 Afzal — Life Tracker</div>
+    <div class="top-actions">
+      <button id="themeToggle" class="icon-btn">🌙</button>
+    </div>
   </header>
 
-  <main>
-    <!-- Daily Quote Section -->
-    <div class="card">
-      <h2>💬 Daily Motivation</h2>
-      <p id="quote"></p>
-      <button id="nextQuote">Next Quote</button>
-    </div>
+  <main class="container">
+    <section class="grid">
+      <!-- Quote -->
+      <div class="card">
+        <div class="card-head">
+          <h3>Daily Motivation</h3>
+          <button id="nextQuote" class="link-btn">Next</button>
+        </div>
+        <p id="quote" class="quote">Loading...</p>
+      </div>
 
-    <!-- Mood Tracker -->
-    <div class="card">
-      <h2>🧠 Mood Tracker</h2>
-      <input type="text" id="moodInput" placeholder="How do you feel today?">
-      <button id="saveMood">Save</button>
-      <ul id="moodList"></ul>
-    </div>
+      <!-- Mood -->
+      <div class="card">
+        <div class="card-head">
+          <h3>Mood Tracker</h3>
+        </div>
+        <div class="row">
+          <input id="moodInput" placeholder="How do you feel? (one line)" />
+          <button id="saveMood" class="btn">Save</button>
+        </div>
+        <ul id="moodList" class="list small"></ul>
+      </div>
 
-    <!-- Daily Schedule -->
-    <div class="card">
-      <h2>🕰️ Daily Schedule</h2>
-      <textarea id="scheduleText" rows="6" placeholder="Plan your day..."></textarea>
-    </div>
+      <!-- Schedule -->
+      <div class="card wide">
+        <div class="card-head"><h3>Daily Schedule</h3></div>
+        <textarea id="scheduleText" rows="5" placeholder="Write plan for today (e.g., 6:30 walk, 9:00 focused work)..."></textarea>
+      </div>
 
-    <!-- Habit Tracker -->
-    <div class="card">
-      <h2>📅 Weekly Habit Tracker</h2>
-      <table id="habitTable">
-        <tr><th>Habit</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th>Sun</th></tr>
-      </table>
-      <button id="addHabit">Add Habit</button>
-      <button id="resetHabits" style="background:red;">Reset Week</button>
-    </div>
+      <!-- Habits -->
+      <div class="card wide">
+        <div class="card-head">
+          <h3>Weekly Habit Tracker</h3>
+          <div>
+            <button id="addHabit" class="btn small">Add Habit</button>
+            <button id="resetHabits" class="btn small danger">Reset Week</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table id="habitTable" class="habit-table">
+            <thead><tr><th>Habit</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th>Sun</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
 
-    <div class="footer-btn">
-      <a href="goals.html" class="button">🎯 Goals</a>
-      <a href="learning.html" class="button">📚 Learning</a>
-      <a href="review.html" class="button">🪞 Review</a>
-      <button id="exportData" class="button">⬇ Export</button>
-      <input type="file" id="importData" style="display:none;" />
-      <button id="importBtn" class="button">⬆ Import</button>
-    </div>
+    <section class="actions">
+      <a class="btn" href="goals.html">🎯 Goals</a>
+      <a class="btn" href="learning.html">📚 Learning</a>
+      <a class="btn" href="review.html">🪞 Review</a>
+      <a class="btn" href="dashboard.html">📊 Dashboard</a>
+      <button id="exportData" class="btn">⬇ Export</button>
+      <input id="importData" type="file" accept="application/json" style="display:none" />
+      <button id="importBtn" class="btn">⬆ Import</button>
+    </section>
   </main>
 
   <script src="script.js"></script>
