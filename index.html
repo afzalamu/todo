@@ -1,183 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Afzal's Life Tracker</title>
-  <style>
-    :root {
-      --bg: #ffffff;
-      --text: #222222;
-      --card: #f5f5f5;
-      --accent: #007bff;
-    }
-    [data-theme='dark'] {
-      --bg: #121212;
-      --text: #eeeeee;
-      --card: #1f1f1f;
-      --accent: #00c2b8;
-    }
-    body {
-      font-family: "Poppins", sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      margin: 0;
-      padding: 0;
-      transition: 0.3s;
-    }
-    header {
-      background: var(--accent);
-      color: white;
-      padding: 1rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    h1 { margin: 0; font-size: 1.4rem; }
-    button, input[type="checkbox"] {
-      cursor: pointer;
-    }
-    main {
-      padding: 1.2rem;
-      max-width: 700px;
-      margin: auto;
-    }
-    .card {
-      background: var(--card);
-      border-radius: 12px;
-      padding: 1rem;
-      margin-bottom: 1rem;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
-    .schedule input {
-      width: 100%;
-      padding: 0.4rem;
-      margin: 0.3rem 0;
-      border: none;
-      border-radius: 6px;
-      background: white;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      text-align: center;
-    }
-    th, td {
-      border-bottom: 1px solid #ccc;
-      padding: 0.5rem;
-    }
-    .footer-btn {
-      text-align: center;
-      margin-top: 1rem;
-    }
-    a.button {
-      background: var(--accent);
-      color: white;
-      padding: 0.6rem 1.2rem;
-      border-radius: 8px;
-      text-decoration: none;
-    }
-    #themeToggle {
-      background: white;
-      color: var(--accent);
-      border: none;
-      border-radius: 6px;
-      padding: 0.4rem 0.7rem;
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Afzal’s Life Tracker</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header>
-    <h1>Afzal’s Life Tracker</h1>
+    <h1>🌱 Afzal’s Life Tracker</h1>
     <button id="themeToggle">🌙</button>
   </header>
 
   <main>
-    <div class="card schedule">
-      <h2>🕰️ Daily Schedule</h2>
-      <p>Edit and plan your day:</p>
-      <textarea id="scheduleText" rows="6" style="width:100%;border-radius:8px;padding:0.6rem;"></textarea>
+    <!-- Daily Quote Section -->
+    <div class="card">
+      <h2>💬 Daily Motivation</h2>
+      <p id="quote"></p>
+      <button id="nextQuote">Next Quote</button>
     </div>
 
+    <!-- Mood Tracker -->
+    <div class="card">
+      <h2>🧠 Mood Tracker</h2>
+      <input type="text" id="moodInput" placeholder="How do you feel today?">
+      <button id="saveMood">Save</button>
+      <ul id="moodList"></ul>
+    </div>
+
+    <!-- Daily Schedule -->
+    <div class="card">
+      <h2>🕰️ Daily Schedule</h2>
+      <textarea id="scheduleText" rows="6" placeholder="Plan your day..."></textarea>
+    </div>
+
+    <!-- Habit Tracker -->
     <div class="card">
       <h2>📅 Weekly Habit Tracker</h2>
       <table id="habitTable">
         <tr><th>Habit</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th>Sun</th></tr>
       </table>
-      <button id="addHabit" style="margin-top:10px;background:var(--accent);color:white;border:none;padding:0.5rem 1rem;border-radius:6px;">Add Habit</button>
+      <button id="addHabit">Add Habit</button>
+      <button id="resetHabits" style="background:red;">Reset Week</button>
     </div>
 
     <div class="footer-btn">
-      <a href="goals.html" class="button">🎯 Go to Goals</a>
+      <a href="goals.html" class="button">🎯 Goals</a>
+      <a href="learning.html" class="button">📚 Learning</a>
+      <a href="review.html" class="button">🪞 Review</a>
+      <button id="exportData" class="button">⬇ Export</button>
+      <input type="file" id="importData" style="display:none;" />
+      <button id="importBtn" class="button">⬆ Import</button>
     </div>
   </main>
 
-  <script>
-    // Theme toggle
-    const themeBtn = document.getElementById("themeToggle");
-    themeBtn.onclick = () => {
-      const current = document.documentElement.getAttribute("data-theme");
-      if (current === "dark") {
-        document.documentElement.setAttribute("data-theme", "light");
-        themeBtn.textContent = "🌙";
-      } else {
-        document.documentElement.setAttribute("data-theme", "dark");
-        themeBtn.textContent = "☀️";
-      }
-    };
-
-    // Schedule save/load
-    const scheduleBox = document.getElementById("scheduleText");
-    scheduleBox.value = localStorage.getItem("schedule") || "";
-    scheduleBox.addEventListener("input", () => {
-      localStorage.setItem("schedule", scheduleBox.value);
-    });
-
-    // Habit Tracker
-    const habitTable = document.getElementById("habitTable");
-    const addHabitBtn = document.getElementById("addHabit");
-
-    function loadHabits() {
-      const habits = JSON.parse(localStorage.getItem("habits") || "[]");
-      habits.forEach(h => addHabitRow(h));
-    }
-
-    function addHabitRow(habit) {
-      const row = document.createElement("tr");
-      const habitName = document.createElement("td");
-      habitName.textContent = habit.name;
-      row.appendChild(habitName);
-      for (let i = 0; i < 7; i++) {
-        const td = document.createElement("td");
-        const checkbox = document.createElement("input");
-        checkbox.type = "checkbox";
-        checkbox.checked = habit.days[i];
-        checkbox.addEventListener("change", () => saveHabits());
-        td.appendChild(checkbox);
-        row.appendChild(td);
-      }
-      habitTable.appendChild(row);
-    }
-
-    function saveHabits() {
-      const rows = Array.from(habitTable.querySelectorAll("tr")).slice(1);
-      const habits = rows.map(r => {
-        const name = r.children[0].textContent;
-        const days = Array.from(r.querySelectorAll("input")).map(c => c.checked);
-        return { name, days };
-      });
-      localStorage.setItem("habits", JSON.stringify(habits));
-    }
-
-    addHabitBtn.onclick = () => {
-      const name = prompt("Enter habit name:");
-      if (name) {
-        addHabitRow({ name, days: [false,false,false,false,false,false,false] });
-        saveHabits();
-      }
-    };
-
-    loadHabits();
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
