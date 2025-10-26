@@ -32,7 +32,7 @@ header.topbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 15px; /* Optimized padding for mobile */
+    padding: 10px 15px; 
     background: var(--primary-color);
     color: white;
     position: sticky;
@@ -48,7 +48,7 @@ header.topbar {
 .container {
     max-width: 900px;
     margin: 20px auto;
-    padding: 0 15px; /* Optimized padding for mobile */
+    padding: 0 15px; 
 }
 
 /* ------------------ COMMON ELEMENTS ------------------ */
@@ -77,24 +77,23 @@ h3, h4 {
 
 /* --- Grid Layout (for index.html) --- */
 .grid {
-    /* Use a flexible grid that can fit a column of at least 300px */
+    /* Auto-fit based on a 280px minimum size */
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 20px;
 }
 
-/* On wider screens (laptops), restrict non-wide cards to one column */
-/* and let the wide cards take up the full space (2 columns). */
+/* Aspect Ratio Fix: On larger screens, force a 3-column structure for small cards */
 @media (min-width: 768px) {
     .grid {
-        grid-template-columns: 1fr 1fr; /* Set up two distinct columns */
+        grid-template-columns: repeat(3, 1fr); /* Force 3 equally sized columns */
     }
     .card:not(.wide) {
-        /* This ensures the Motivation/Note cards stay in one column and don't stretch */
+        /* Restrict the width of small cards for better readability */
         max-width: 100%; 
     }
     .card.wide {
-        grid-column: 1 / -1; /* Make wide cards span all two columns */
+        grid-column: 1 / -1; /* Make wide cards span all three columns */
     }
 }
 
@@ -195,6 +194,19 @@ textarea {
 .list li:last-child {
     border-bottom: none;
 }
+/* Style for the new quick links list */
+.list.link-list li {
+    justify-content: flex-start;
+}
+.link-text {
+    color: var(--text-color); /* Use general text color */
+    text-decoration: none;
+}
+.link-text:hover {
+    color: var(--primary-color);
+    text-decoration: underline;
+}
+
 .quote {
     font-style: italic;
     color: var(--text-color); 
