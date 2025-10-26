@@ -1,705 +1,183 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My To-Do List</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        :root {
-            --primary-color: #212121; /* Dark Gray */
-            --secondary-color: #E5423C; /* Todoist Red */
-            --accent-color: #FFC107; /* Amber */
-            --danger-color: #CF2D28; /* Darker Red */
-            --text-color: #212121; /* Dark Gray */
-            --light-text-color: #757575; /* Gray */
-            --bg-color: #F8F9FA; /* Off-white background */
-            --card-bg: #FFFFFF; /* White */
-            --card-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
-            --border-color: #E0E0E0;
-        }
-
-        [data-theme="dark"] {
-            --primary-color: #E3E3E3;
-            --secondary-color: #F44336;
-            --accent-color: #FFB74D;
-            --danger-color: #EF9A9A;
-            --text-color: #E3E3E3;
-            --light-text-color: #B0B0B0;
-            --bg-color: #1A1A1A;
-            --card-bg: #2B2B2B;
-            --card-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-            --border-color: #404040;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            min-height: 100vh;
-            padding: 2rem 1rem;
-            margin: 0;
-            box-sizing: border-box;
-            line-height: 1.5;
-            transition: background-color 0.5s ease, color 0.5s ease;
-        }
-
-        .container {
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-            max-width: 650px;
-            width: 100%;
-        }
-
-        .card {
-            background-color: var(--card-bg);
-            border-radius: 20px;
-            box-shadow: var(--card-shadow);
-            padding: 2rem;
-            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.5s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
-        }
-
-        h1 {
-            font-family: 'Poppins', sans-serif;
-            color: var(--primary-color);
-            font-weight: 700;
-            font-size: 2.2rem;
-            margin-top: 0;
-            margin-bottom: 1.5rem;
-            text-align: center;
-            transition: color 0.5s ease;
-        }
-        
-        h2 {
-            font-family: 'Poppins', sans-serif;
-            color: var(--primary-color);
-            font-weight: 600;
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
-            transition: color 0.5s ease;
-        }
-
-        h3 {
-            font-family: 'Poppins', sans-serif;
-            color: var(--primary-color);
-            font-weight: 600;
-            font-size: 1.4rem;
-            margin-bottom: 0.8rem;
-            transition: color 0.5s ease;
-        }
-
-        #quote-container {
-            text-align: center;
-            margin-bottom: 0.5rem;
-        }
-        
-        #quote-container p {
-            font-family: 'Inter', sans-serif;
-            font-size: 1.2rem;
-            color: var(--secondary-color);
-            font-weight: 500;
-            font-style: italic;
-            margin-bottom: 0.2rem;
-            transition: color 0.5s ease;
-        }
-        
-        #quote-container cite {
-            display: block;
-            color: var(--light-text-color);
-            font-style: normal;
-            font-size: 0.85rem;
-            opacity: 0.8;
-            transition: color 0.5s ease;
-        }
-        
-        .today-date {
-            text-align: center;
-            font-size: 0.95rem;
-            font-weight: 500;
-            color: var(--light-text-color);
-            margin-top: 1rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid var(--border-color);
-            transition: color 0.5s ease, border-color 0.5s ease;
-        }
-
-        .calendar {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 8px;
-            text-align: center;
-            font-weight: 600;
-            font-size: 0.9rem;
-            margin-top: 1.5rem;
-        }
-
-        .calendar-heading {
-            grid-column: 1 / -1;
-            text-align: center;
-            font-weight: 700;
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .calendar div {
-            padding: 0.7rem 0;
-            border-radius: 10px;
-            background-color: var(--border-color);
-            transition: background-color 0.3s, color 0.5s;
-        }
-        
-        .calendar div.day-name {
-            background-color: transparent;
-            font-weight: 500;
-            color: var(--light-text-color);
-        }
-
-        .calendar div.current-day {
-            background-color: var(--secondary-color);
-            color: white;
-            font-weight: bold;
-        }
-
-        .task-section {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-        
-        .task-list-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .task-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .task-list li {
-            background-color: var(--bg-color);
-            padding: 1rem 1.25rem;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 0.8rem;
-            transition: background-color 0.2s ease, border-color 0.5s ease;
-            border: 1px solid var(--border-color);
-        }
-
-        .task-list li:hover {
-            background-color: var(--border-color);
-        }
-
-        .task-list input[type="text"] {
-            border: none;
-            background: transparent;
-            font-size: 1rem;
-            font-family: 'Inter', sans-serif;
-            flex-grow: 1;
-            padding: 0.2rem 0;
-            color: var(--text-color);
-            transition: color 0.5s ease;
-        }
-
-        .task-list input[type="text"]:focus {
-            outline: none;
-            border-bottom: 2px solid var(--secondary-color);
-        }
-        
-        .task-list input[type="checkbox"] {
-            margin-right: 1rem;
-            appearance: none;
-            width: 1.5rem;
-            height: 1.5rem;
-            border: 2px solid var(--secondary-color);
-            border-radius: 50%;
-            cursor: pointer;
-            position: relative;
-            transition: background-color 0.2s, border-color 0.2s;
-            flex-shrink: 0;
-        }
-        
-        .task-list input[type="checkbox"]:checked {
-            background-color: var(--secondary-color);
-            border-color: var(--secondary-color);
-        }
-        
-        .task-list input[type="checkbox"]:checked::after {
-            content: '\f00c';
-            font-family: "Font Awesome 6 Free";
-            font-weight: 900;
-            color: white;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 0.8rem;
-        }
-
-        .completed-task {
-            text-decoration: line-through;
-            color: var(--light-text-color);
-            opacity: 0.7;
-            transition: color 0.5s ease;
-        }
-        
-        .braindump-list li {
-            background-color: #F8E3E3;
-            border-color: #F4D0D0;
-        }
-
-        .add-task-btn {
-            background-color: var(--secondary-color);
-            color: white;
-            border: none;
-            padding: 0.8rem 1.5rem;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: background-color 0.2s ease, transform 0.2s ease;
-            font-weight: 600;
-            width: 100%;
-            margin-top: 1rem;
-            font-size: 0.95rem;
-        }
-
-        .add-task-btn:hover {
-            background-color: var(--primary-color);
-            transform: translateY(-2px);
-        }
-        
-        .add-braindump-btn {
-            background-color: var(--primary-color);
-        }
-        
-        .add-braindump-btn:hover {
-            background-color: #2C3E50;
-        }
-
-        .delete-btn {
-            background: none;
-            border: none;
-            color: var(--danger-color);
-            cursor: pointer;
-            font-size: 1.2rem;
-            margin-left: 0.75rem;
-            opacity: 0.7;
-            transition: opacity 0.2s, transform 0.2s, color 0.5s ease;
-        }
-        
-        .delete-btn:hover {
-            opacity: 1;
-            transform: scale(1.1);
-        }
-
-        .reset-section-btn {
-            background-color: transparent;
-            border: 1px solid var(--danger-color);
-            color: var(--danger-color);
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            font-size: 0.8rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            transition: background-color 0.2s, color 0.2s;
-        }
-
-        .reset-section-btn:hover {
-            background-color: var(--danger-color);
-            color: white;
-        }
-
-        .reset-all-btn {
-            background-color: var(--danger-color);
-            color: white;
-            border: none;
-            padding: 0.9rem 2rem;
-            border-radius: 50px;
-            cursor: pointer;
-            margin-top: 2rem;
-            display: block;
-            width: 100%;
-            text-align: center;
-            font-weight: 600;
-            font-size: 1rem;
-            transition: background-color 0.2s ease, transform 0.2s ease;
-        }
-        
-        .reset-all-btn:hover {
-            background-color: #D32F2F;
-            transform: translateY(-2px);
-        }
-
-        .theme-toggle-btn {
-            background: none;
-            border: none;
-            color: var(--primary-color);
-            font-size: 1.8rem;
-            cursor: pointer;
-            transition: color 0.5s ease;
-            position: absolute;
-            top: 1.5rem;
-            right: 1.5rem;
-            z-index: 10;
-        }
-
-        .theme-toggle-btn:hover {
-            color: var(--secondary-color);
-        }
-
-        @media (min-width: 768px) {
-            body {
-                padding: 4rem;
-            }
-            .container {
-                display: flex;
-                flex-direction: column;
-                max-width: 1000px;
-                gap: 3rem;
-            }
-            .card {
-                padding: 3rem;
-            }
-            .task-section {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-                gap: 2.5rem;
-            }
-            .add-task-btn {
-                width: auto;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Afzal's Life Tracker</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #222222;
+      --card: #f5f5f5;
+      --accent: #007bff;
+    }
+    [data-theme='dark'] {
+      --bg: #121212;
+      --text: #eeeeee;
+      --card: #1f1f1f;
+      --accent: #00c2b8;
+    }
+    body {
+      font-family: "Poppins", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 0;
+      transition: 0.3s;
+    }
+    header {
+      background: var(--accent);
+      color: white;
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    h1 { margin: 0; font-size: 1.4rem; }
+    button, input[type="checkbox"] {
+      cursor: pointer;
+    }
+    main {
+      padding: 1.2rem;
+      max-width: 700px;
+      margin: auto;
+    }
+    .card {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .schedule input {
+      width: 100%;
+      padding: 0.4rem;
+      margin: 0.3rem 0;
+      border: none;
+      border-radius: 6px;
+      background: white;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: center;
+    }
+    th, td {
+      border-bottom: 1px solid #ccc;
+      padding: 0.5rem;
+    }
+    .footer-btn {
+      text-align: center;
+      margin-top: 1rem;
+    }
+    a.button {
+      background: var(--accent);
+      color: white;
+      padding: 0.6rem 1.2rem;
+      border-radius: 8px;
+      text-decoration: none;
+    }
+    #themeToggle {
+      background: white;
+      color: var(--accent);
+      border: none;
+      border-radius: 6px;
+      padding: 0.4rem 0.7rem;
+    }
+  </style>
 </head>
-<body data-theme="light">
+<body>
+  <header>
+    <h1>Afzal’s Life Tracker</h1>
+    <button id="themeToggle">🌙</button>
+  </header>
 
-    <button id="theme-toggle-btn" class="theme-toggle-btn">
-        <i class="fas fa-moon"></i>
-    </button>
-
-    <div class="container">
-        
-        <div class="card header-card">
-            <div id="quote-container">
-                <p id="quote-text"></p>
-                <cite id="quote-source"></cite>
-            </div>
-            <div id="today-date-container" class="today-date"></div>
-        </div>
-
-        <div class="card main-content">
-            <header>
-                <h1>My To-Do List</h1>
-            </header>
-            
-            <section class="task-section">
-                <div>
-                    <div class="task-list-header">
-                        <h3>Daily Goals</h3>
-                        <button class="reset-section-btn" data-type="daily"><i class="fas fa-redo"></i></button>
-                    </div>
-                    <ul id="daily-list" class="task-list"></ul>
-                    <button class="add-task-btn" data-type="daily">Add Daily Task</button>
-                </div>
-                
-                <div>
-                    <div class="task-list-header">
-                        <h3>Weekly Goals</h3>
-                        <button class="reset-section-btn" data-type="weekly"><i class="fas fa-redo"></i></button>
-                    </div>
-                    <ul id="weekly-list" class="task-list"></ul>
-                    <button class="add-task-btn" data-type="weekly">Add Weekly Task</button>
-                </div>
-                
-                <div>
-                    <div class="task-list-header">
-                        <h3>Monthly Goals</h3>
-                        <button class="reset-section-btn" data-type="monthly"><i class="fas fa-redo"></i></button>
-                    </div>
-                    <ul id="monthly-list" class="task-list"></ul>
-                    <button class="add-task-btn" data-type="monthly">Add Monthly Task</button>
-                </div>
-                
-                <div class="braindump-section">
-                    <div class="task-list-header">
-                        <h3>Braindump / Ideas</h3>
-                        <button class="reset-section-btn" data-type="braindump"><i class="fas fa-redo"></i></button>
-                    </div>
-                    <ul id="braindump-list" class="task-list braindump-list"></ul>
-                    <button class="add-task-btn add-braindump-btn" data-type="braindump">Add Idea</button>
-                </div>
-            </section>
-        </div>
-        
-        <div class="card footer-card">
-            <div class="calendar-container">
-                <h2>Calendar</h2>
-                <div id="calendar" class="calendar"></div>
-            </div>
-            <button id="reset-all-button" class="reset-all-btn">Reset All Tasks</button>
-        </div>
-        
+  <main>
+    <div class="card schedule">
+      <h2>🕰️ Daily Schedule</h2>
+      <p>Edit and plan your day:</p>
+      <textarea id="scheduleText" rows="6" style="width:100%;border-radius:8px;padding:0.6rem;"></textarea>
     </div>
 
-    <script>
-        const quotes = [
-            { text: "Allah does not burden a soul beyond that it can bear.", source: "Qur'an 2:286" },
-            { text: "The best among you are those who have the best character.", source: "Prophet Muhammad (peace be upon him)" },
-            { text: "Verily, with every hardship, there is ease.", source: "Qur'an 94:6" },
-            { text: "Do not lose hope, nor be sad.", source: "Qur'an 3:139" },
-            { text: "Patience is a key to relief.", source: "Prophet Muhammad (peace be upon him)" },
-            { text: "The successful one is he who purifies his soul.", source: "Qur'an 91:9" },
-            { text: "Prayer is the cornerstone of religion.", source: "Prophet Muhammad (peace be upon him)" },
-            { text: "And We have certainly created man and know what his soul whispers to him, and We are closer to him than his jugular vein.", source: "Qur'an 50:16" },
-            { text: "Do not be sad, Allah is with us.", source: "Qur'an 9:40" },
-            { text: "The most beloved of deeds to Allah are those that are continuous, even if they are few.", source: "Prophet Muhammad (peace be upon him)" },
-            { text: "The world is but a bridge; pass over it, but build no houses upon it.", source: "Prophet Muhammad (peace be upon him)" },
-            { text: "Knowledge is not that which is memorized, but that which benefits.", source: "Imam Ash-Shafi'i" },
-            { text: "The strong man is not the one who can wrestle, but the one who can control himself when he is angry.", source: "Prophet Muhammad (peace be upon him)" },
-            { text: "Your remedy is within you, but you do not sense it. Your sickness is from you, but you do not perceive it.", source: "Imam Ali" },
-            { text: "Call upon Me, I will respond to you.", source: "Qur'an 40:60" },
-            { text: "The most beloved of places to Allah is the mosque.", source: "Prophet Muhammad (peace be upon him)" },
-            { text: "The greatest gift is the gift of knowledge.", source: "Prophet Muhammad (peace be upon him)" },
-            { text: "The heart that is most beloved to Allah is the most tender and pure.", source: "Prophet Muhammad (peace be upon him)" },
-            { text: "Be like a tree, let the people throw stones at you but give them fruit.", source: "Abu Bakr" },
-            { text: "Verily, in the remembrance of Allah do hearts find rest.", source: "Qur'an 13:28" },
-            { text: "The cure for ignorance is to question.", source: "Prophet Muhammad (peace be upon him)" },
-            { text: "Fear Allah wherever you are.", source: "Prophet Muhammad (peace be upon him)" },
-            { text: "The pen has been lifted, and the scrolls have dried.", source: "Prophet Muhammad (peace be upon him)" },
-            { text: "Paradise lies under the feet of mothers.", source: "Prophet Muhammad (peace be upon him)" },
-            { text: "Charity does not decrease wealth.", source: "Prophet Muhammad (peace be upon him)" },
-            { text: "Speak a good word or remain silent.", source: "Prophet Muhammad (peace be upon him)" },
-            { text: "Do not judge your brother.", source: "Prophet Muhammad (peace be upon him)" },
-            { text: "A believer is a mirror to another believer.", source: "Prophet Muhammad (peace be upon him)" },
-            { text: "Allah is the light of the heavens and the earth.", source: "Qur'an 24:35" },
-            { text: "Do not be too sweet lest you be swallowed up, and not too bitter lest you be spit out.", source: "Sufyan al-Thawri" },
-            { text: "The food of one person is enough for two.", source: "Prophet Muhammad (peace be upon him)" },
-            { text: "The worst of evils is a long tongue.", source: "Imam Ali" },
-            { text: "He who has no mercy on others, will not be shown mercy by Allah.", source: "Prophet Muhammad (peace be upon him)" },
-            { text: "The greatest sin is to lie.", source: "Prophet Muhammad (peace be upon him)" },
-            { text: "The world is a prison for the believer and a paradise for the disbeliever.", source: "Prophet Muhammad (peace be upon him)" },
-            { text: "Seek knowledge from the cradle to the grave.", source: "Prophet Muhammad (peace be upon him)" },
-            { text: "The wise man is he who controls his tongue.", source: "Prophet Muhammad (peace be upon him)" },
-            { text: "Allah is with you wherever you are.", source: "Qur'an 57:4" },
-            { text: "The remembrance of Allah is the greatest.", source: "Qur'an 29:45" },
-            { text: "The best of you are those who are best to their families.", source: "Prophet Muhammad (peace be upon him)" },
-            { text: "The most beautiful thing in the world is a happy family.", source: "Prophet Muhammad (peace be upon him)" },
-            { text: "A good word is a charity.", source: "Prophet Muhammad (peace be upon him)" },
-            { text: "The true wealth is the wealth of the soul.", source: "Prophet Muhammad (peace be upon him)" },
-            { text: "Modesty is a part of faith.", source: "Prophet Muhammad (peace be upon him)" },
-            { text: "Do not despair of the mercy of Allah.", source: "Qur'an 39:53" },
-            { text: "The best of charity is that which is given for the sake of Allah.", source: "Prophet Muhammad (peace be upon him)" },
-            { text: "The greatest of all gifts is the gift of faith.", source: "Prophet Muhammad (peace be upon him)" },
-            { text: "The one who is a good companion is a blessing.", source: "Prophet Muhammad (peace be upon him)" },
-            { text: "The love of the Prophet is a part of faith.", source: "Prophet Muhammad (peace be upon him)" },
-            { text: "The one who is merciful to others will be shown mercy by Allah.", source: "Prophet Muhammad (peace be upon him)" },
-        ];
-        
-        const themeToggleBtn = document.getElementById('theme-toggle-btn');
-        const body = document.body;
-        
-        const currentTheme = localStorage.getItem('theme') || 'light';
-        body.setAttribute('data-theme', currentTheme);
+    <div class="card">
+      <h2>📅 Weekly Habit Tracker</h2>
+      <table id="habitTable">
+        <tr><th>Habit</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th>Sun</th></tr>
+      </table>
+      <button id="addHabit" style="margin-top:10px;background:var(--accent);color:white;border:none;padding:0.5rem 1rem;border-radius:6px;">Add Habit</button>
+    </div>
 
-        if (currentTheme === 'dark') {
-            themeToggleBtn.innerHTML = '<i class="fas fa-sun"></i>';
-        }
+    <div class="footer-btn">
+      <a href="goals.html" class="button">🎯 Go to Goals</a>
+    </div>
+  </main>
 
-        themeToggleBtn.addEventListener('click', () => {
-            let theme = body.getAttribute('data-theme');
-            if (theme === 'light') {
-                body.setAttribute('data-theme', 'dark');
-                localStorage.setItem('theme', 'dark');
-                themeToggleBtn.innerHTML = '<i class="fas fa-sun"></i>';
-            } else {
-                body.setAttribute('data-theme', 'light');
-                localStorage.setItem('theme', 'light');
-                themeToggleBtn.innerHTML = '<i class="fas fa-moon"></i>';
-            }
-        });
+  <script>
+    // Theme toggle
+    const themeBtn = document.getElementById("themeToggle");
+    themeBtn.onclick = () => {
+      const current = document.documentElement.getAttribute("data-theme");
+      if (current === "dark") {
+        document.documentElement.setAttribute("data-theme", "light");
+        themeBtn.textContent = "🌙";
+      } else {
+        document.documentElement.setAttribute("data-theme", "dark");
+        themeBtn.textContent = "☀️";
+      }
+    };
 
-        const todayDateEl = document.getElementById('today-date-container');
-        function displayTodayDate() {
-            const today = new Date();
-            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            todayDateEl.textContent = today.toLocaleDateString('en-US', options);
-        }
-        displayTodayDate();
-        
-        const quoteTextEl = document.getElementById('quote-text');
-        const quoteSourceEl = document.getElementById('quote-source');
-        
-        function displayDailyQuote() {
-            const randomIndex = Math.floor(Math.random() * quotes.length);
-            const quote = quotes[randomIndex];
-            quoteTextEl.textContent = quote.text;
-            quoteSourceEl.textContent = quote.source;
-        }
-        displayDailyQuote();
+    // Schedule save/load
+    const scheduleBox = document.getElementById("scheduleText");
+    scheduleBox.value = localStorage.getItem("schedule") || "";
+    scheduleBox.addEventListener("input", () => {
+      localStorage.setItem("schedule", scheduleBox.value);
+    });
 
-        const calendarEl = document.getElementById('calendar');
-        function renderCalendar() {
-            const now = new Date();
-            const today = now.getDate();
-            const month = now.getMonth();
-            const year = now.getFullYear();
+    // Habit Tracker
+    const habitTable = document.getElementById("habitTable");
+    const addHabitBtn = document.getElementById("addHabit");
 
-            const firstDay = new Date(year, month, 1).getDay();
-            const daysInMonth = new Date(year, month + 1, 0).getDate();
-            
-            const monthName = now.toLocaleString('en-US', { month: 'long' });
+    function loadHabits() {
+      const habits = JSON.parse(localStorage.getItem("habits") || "[]");
+      habits.forEach(h => addHabitRow(h));
+    }
 
-            calendarEl.innerHTML = `<div class="calendar-heading">${monthName} ${year}</div>`;
-            const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    function addHabitRow(habit) {
+      const row = document.createElement("tr");
+      const habitName = document.createElement("td");
+      habitName.textContent = habit.name;
+      row.appendChild(habitName);
+      for (let i = 0; i < 7; i++) {
+        const td = document.createElement("td");
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.checked = habit.days[i];
+        checkbox.addEventListener("change", () => saveHabits());
+        td.appendChild(checkbox);
+        row.appendChild(td);
+      }
+      habitTable.appendChild(row);
+    }
 
-            dayNames.forEach(day => {
-                const dayEl = document.createElement('div');
-                dayEl.classList.add('day-name');
-                dayEl.textContent = day;
-                calendarEl.appendChild(dayEl);
-            });
+    function saveHabits() {
+      const rows = Array.from(habitTable.querySelectorAll("tr")).slice(1);
+      const habits = rows.map(r => {
+        const name = r.children[0].textContent;
+        const days = Array.from(r.querySelectorAll("input")).map(c => c.checked);
+        return { name, days };
+      });
+      localStorage.setItem("habits", JSON.stringify(habits));
+    }
 
-            for (let i = 0; i < firstDay; i++) {
-                const emptyDayEl = document.createElement('div');
-                calendarEl.appendChild(emptyDayEl);
-            }
+    addHabitBtn.onclick = () => {
+      const name = prompt("Enter habit name:");
+      if (name) {
+        addHabitRow({ name, days: [false,false,false,false,false,false,false] });
+        saveHabits();
+      }
+    };
 
-            for (let i = 1; i <= daysInMonth; i++) {
-                const dayEl = document.createElement('div');
-                dayEl.textContent = i;
-                if (i === today) {
-                    dayEl.classList.add('current-day');
-                }
-                calendarEl.appendChild(dayEl);
-            }
-        }
-        renderCalendar();
-        
-        const lists = {
-            daily: document.getElementById('daily-list'),
-            weekly: document.getElementById('weekly-list'),
-            monthly: document.getElementById('monthly-list'),
-            braindump: document.getElementById('braindump-list')
-        };
-        const addTaskButtons = document.querySelectorAll('.add-task-btn');
-        const resetAllButton = document.getElementById('reset-all-button');
-        const resetSectionButtons = document.querySelectorAll('.reset-section-btn');
-        
-        function saveTasks() {
-            const tasks = {
-                daily: [],
-                weekly: [],
-                monthly: [],
-                braindump: []
-            };
-            
-            for (const type in lists) {
-                const items = lists[type].querySelectorAll('li');
-                items.forEach(item => {
-                    const checkbox = item.querySelector('input[type="checkbox"]');
-                    const text = item.querySelector('input[type="text"]');
-                    tasks[type].push({
-                        text: text.value,
-                        completed: checkbox.checked
-                    });
-                });
-            }
-            
-            localStorage.setItem('tasks', JSON.stringify(tasks));
-        }
-
-        function renderTasks() {
-            const storedTasks = JSON.parse(localStorage.getItem('tasks'));
-            if (!storedTasks) return;
-            
-            for (const type in storedTasks) {
-                lists[type].innerHTML = '';
-                storedTasks[type].forEach(task => {
-                    createTaskItem(task.text, task.completed, type);
-                });
-            }
-        }
-
-        function createTaskItem(taskText, isCompleted, type) {
-            const li = document.createElement('li');
-            
-            const checkbox = document.createElement('input');
-            checkbox.type = 'checkbox';
-            checkbox.checked = isCompleted;
-            
-            const textInput = document.createElement('input');
-            textInput.type = 'text';
-            textInput.value = taskText;
-            textInput.classList.toggle('completed-task', isCompleted);
-            
-            const deleteBtn = document.createElement('button');
-            deleteBtn.innerHTML = '<i class="fas fa-trash-alt"></i>';
-            deleteBtn.classList.add('delete-btn');
-            
-            checkbox.addEventListener('change', () => {
-                textInput.classList.toggle('completed-task', checkbox.checked);
-                saveTasks();
-            });
-
-            textInput.addEventListener('input', saveTasks);
-            
-            deleteBtn.addEventListener('click', () => {
-                li.remove();
-                saveTasks();
-            });
-            
-            li.appendChild(checkbox);
-            li.appendChild(textInput);
-            li.appendChild(deleteBtn);
-            lists[type].appendChild(li);
-        }
-        
-        addTaskButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const type = button.dataset.type;
-                createTaskItem('', false, type);
-                saveTasks();
-            });
-        });
-
-        resetAllButton.addEventListener('click', () => {
-            if (confirm("Are you sure you want to reset all tasks? This cannot be undone.")) {
-                localStorage.removeItem('tasks');
-                for (const type in lists) {
-                    lists[type].innerHTML = '';
-                }
-            }
-        });
-        
-        resetSectionButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const type = button.dataset.type;
-                if (confirm(`Are you sure you want to reset all tasks in the ${type} section? This cannot be undone.`)) {
-                    lists[type].innerHTML = '';
-                    saveTasks();
-                }
-            });
-        });
-
-        renderTasks();
-
-    </script>
-
+    loadHabits();
+  </script>
 </body>
 </html>
