@@ -1,289 +1,238 @@
-/* ------------------ GLOBAL ------------------ */
-/* --- THEME (Light/Dark Mode) --- */
-:root {
-    --bg-color: #f3f4f6;
-    --text-color: #333;
-    --card-bg: white;
-    --primary-color: #2563eb;
-    --primary-hover: #1d4ed8;
-    --danger-color: #dc2626;
-    --border-color: #e5e7eb;
-}
+// ---------------- THEME ----------------
+(function themeInit(){
+  const btns = document.querySelectorAll('#themeToggle');
+  const setTheme = (t) => {
+    document.documentElement.setAttribute('data-theme', t);
+    btns.forEach(b => { if (b) b.textContent = t === 'dark' ? '☀️' : '🌙'; });
+    localStorage.setItem('theme', t);
+  };
+  const saved = localStorage.getItem('theme') || 'light';
+  setTheme(saved);
+  btns.forEach(b => { if (!b) return; b.addEventListener('click', ()=> setTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark')); });
+})();
 
-[data-theme='dark'] {
-    --bg-color: #1f2937;
-    --text-color: #f3f4f6;
-    --card-bg: #374151;
-    --primary-color: #60a5fa;
-    --primary-hover: #3b82f6;
-    --danger-color: #ef4444;
-    --border-color: #4b5563;
-}
+// ---------------- REMOVED: QUOTES ----------------
 
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: var(--bg-color);
-    color: var(--text-color);
-}
+// ---------------- QUICK LINKS ----------------
+const quickLinks = [
+    { name: "My Work Repo", url: "https://github.com/your-repo" },
+    { name: "Learning Course", url: "https://udemy.com" },
+    { name: "Daily News", url: "https://news.google.com" }
+];
+(function quickLinksInit(){
+    const list = document.getElementById('quickLinksList');
+    if (!list) return;
 
-/* Topbar common */
-header.topbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 15px; 
-    background: var(--primary-color);
-    color: white;
-    position: sticky;
-    top: 0;
-    z-index: 10;
-}
+    list.innerHTML = '';
+    quickLinks.forEach(link => {
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = link.url;
+        a.textContent = link.name;
+        a.target = '_blank'; // Opens in a new tab
+        a.className = 'link-text';
+        li.appendChild(a);
+        list.appendChild(li);
+    });
+})();
 
-.brand {
-    font-weight: bold;
-    font-size: 1.2em;
-}
+// ---------------- QUICK NOTE ----------------
+(function quickNoteInit(){
+  const box = document.getElementById('quickNoteText');
+  if(!box) return;
+  box.value = localStorage.getItem('quickNote') || '';
+  box.addEventListener('input', ()=> localStorage.setItem('quickNote', box.value));
+})();
 
-.top-actions {
-    display: flex;
-    align-items: center;
-    gap: 15px; 
-}
+// ---------------- SCHEDULE ----------------
+(function scheduleInit(){
+  const box = document.getElementById('scheduleText');
+  const stampEl = document.getElementById('scheduleTimestamp');
 
-/* Style for Bismillah Text */
-.header-text {
-    font-size: 1.1em;
-    direction: rtl; 
-    text-align: right;
-    font-family: 'Times New Roman', serif; 
-}
+  if(!box) return;
 
-.container {
-    max-width: 900px;
-    margin: 20px auto;
-    padding: 0 15px; 
-}
-
-/* ------------------ COMMON ELEMENTS ------------------ */
-
-/* --- Cards --- */
-.card {
-    background: var(--card-bg);
-    padding: 15px;
-    margin-bottom: 20px;
-    border-radius: 8px;
-    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
-    /* BUTTON FIX: Ensure cards don't overlap buttons outside them */
-    position: relative; 
-}
-
-/* --- MAIN TWO-COLUMN LAYOUT FIX --- */
-.main-layout {
-    display: grid;
-    gap: 20px;
-}
-/* Left column stacks cards, Right column stacks cards */
-.left-column, .right-column {
-    display: flex;
-    flex-direction: column;
-}
-/* Ensure right column fills remaining space */
-.right-column .card.wide {
-    flex-grow: 1; 
-}
-
-/* Layout for wide screens (laptop) */
-@media (min-width: 768px) {
-    .main-layout {
-        /* Set two columns: Left (narrow, for small cards) and Right (wider, for trackers) */
-        grid-template-columns: 1fr 2fr; 
+  function updateTimestamp() {
+    const ts = localStorage.getItem('scheduleTimestamp');
+    if (stampEl) {
+        stampEl.textContent = ts ? `Last Update: ${ts}` : 'No plan saved yet.';
     }
+  }
+  
+  // Load schedule and initial timestamp
+  box.value = localStorage.getItem('schedule') || '';
+  updateTimestamp();
+
+  // Save on input and update timestamp
+  box.addEventListener('input', ()=> {
+    localStorage.setItem('schedule', box.value);
+    const time = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+    const ts = new Date().toLocaleDateString() + ' ' + time;
+    localStorage.setItem('scheduleTimestamp', ts);
+    updateTimestamp(); // Refresh the display
+  });
+})();
+
+// ---------------- HABITS (FIXED FUNCTIONALITY) ----------------
+(function habitsInit(){
+  const tableBody = (document.getElementById('habitTable')||{}).querySelector('tbody');
+  const addBtn = document.getElementById('addHabit');
+  const resetBtn = document.getElementById('resetHabits');
+
+  if (!tableBody) return;
+  
+  // FIX: save() function moved out of render()
+  function save(){ 
+    const habits = Array.from(tableBody.querySelectorAll('tr')).map(r=>({ 
+        name: r.children[0].textContent, 
+        days: Array.from(r.querySelectorAll('input')).map(i=>i.checked) 
+    })); 
+    localStorage.setItem('habits', JSON.stringify(habits)); 
 }
 
+  function render(){
+    tableBody.innerHTML = '';
+    const habits = JSON.parse(localStorage.getItem('habits')||'[]');
+    habits.forEach((h, idx) => {
+      const tr = document.createElement('tr');
+      const tdName = document.createElement('td'); tdName.textContent = h.name; tr.appendChild(tdName);
+      for(let i=0;i<7;i++){
+        const td = document.createElement('td');
+        const cb = document.createElement('input'); cb.type='checkbox'; cb.checked = !!h.days[i];
+        // Listener now calls the correctly scoped save() function
+        cb.addEventListener('change', ()=> { h.days[i]=cb.checked; save(); });
+        td.appendChild(cb); tr.appendChild(td);
+      }
+      tableBody.appendChild(tr);
+    });
+  }
+  
+  if (addBtn) addBtn.addEventListener('click', ()=> {
+    const name = prompt('Enter habit name (e.g., Walk 10 min)'); if(!name) return;
+    const habits = JSON.parse(localStorage.getItem('habits')||'[]'); habits.push({ name, days:[false,false,false,false,false,false,false] }); localStorage.setItem('habits', JSON.stringify(habits)); render();
+  });
+  
+  if (resetBtn) resetBtn.addEventListener('click', ()=> { if(confirm('Clear habits and start new week?')){ 
+    localStorage.removeItem('habits'); 
+    render(); 
+} });
+  
+  render();
+})();
 
-/* --- Buttons / Links (Functionality Fix) --- */
-.btn {
-    /* BUTTON FIX: Ensure buttons are clickable by layering them above other content */
-    position: relative;
-    z-index: 2; 
+// ---------------- GOALS ----------------
+(function goalsInit(){
+  const input = document.getElementById('goalInput'); 
+  const add = document.getElementById('addGoal'); 
+  const list = document.getElementById('goalList');
+  const prioritySelect = document.getElementById('goalPriority'); 
 
-    background: var(--primary-color);
-    color: white;
-    padding: 8px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    text-decoration: none;
-    font-size: 14px;
-    transition: background-color 0.2s;
-}
-/* ... rest of button styles remain the same ... */
+  if(!add) return;
 
-/* --- Habits Table (Functionality Fix) --- */
-.habit-table {
-    /* BUTTON FIX: Ensure table and its contents (checkboxes) are clickable */
-    position: relative;
-    z-index: 1; 
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-}
-.habit-table input[type="checkbox"] {
-    position: relative;
-    z-index: 2; /* Force checkboxes above cells */
-    cursor: pointer;
-}
+  function render(){ 
+    list.innerHTML=''; 
+    const goals = JSON.parse(localStorage.getItem('goals')||'[]');
 
+    goals.forEach((g,i)=>{ 
+      // Ensure 'g' is an object for backwards compatibility
+      const goal = (typeof g === 'string') ? { name: g, priority: 'Medium' } : g;
 
-/* ------------------ REST OF STYLES (UNCHANGED) ------------------ */
+      const li=document.createElement('li'); 
+      const content = document.createElement('div');
+      content.style.display = 'flex';
+      content.style.alignItems = 'center';
 
-h3, h4 {
-    margin: 0;
-    color: var(--text-color);
-}
+      // Priority Indicator
+      const indicator = document.createElement('span');
+      indicator.className = `priority-dot priority-${goal.priority.toLowerCase()}`;
+      indicator.title = `${goal.priority} Priority`;
+      
+      const name = document.createElement('span');
+      name.textContent = goal.name;
+      name.style.marginLeft = '8px';
 
-.card-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-}
+      content.appendChild(indicator);
+      content.appendChild(name);
+      li.appendChild(content);
 
-.btn:hover {
-    background: var(--primary-hover);
-}
-.btn.small {
-    padding: 5px 10px;
-    font-size: 12px;
-}
-.btn.danger {
-    background: var(--danger-color);
-}
-.btn.danger:hover {
-    background: #c51d1d;
-}
+      const d=document.createElement('button'); 
+      d.textContent='Done'; 
+      d.className='btn small'; 
+      d.addEventListener('click', ()=>{ 
+        const arr=JSON.parse(localStorage.getItem('goals')||'[]'); 
+        arr.splice(i,1); 
+        localStorage.setItem('goals', JSON.stringify(arr)); 
+        render(); 
+      }); 
+      li.appendChild(d); 
+      list.appendChild(li); 
+    }); 
+  }
+  
+  add.addEventListener('click', ()=> { 
+    const v=input.value.trim(); 
+    const p=prioritySelect.value;
+    if(!v) return; 
 
-.icon-btn {
-    background: none;
-    border: none;
-    font-size: 1.5em;
-    cursor: pointer;
-}
+    const arr=JSON.parse(localStorage.getItem('goals')||'[]'); 
+    // Store as an object
+    arr.push({ name: v, priority: p }); 
+    localStorage.setItem('goals', JSON.stringify(arr)); 
+    input.value=''; 
+    render(); 
+  });
+  
+  render();
+})();
 
-.link-btn, .link {
-    background: none;
-    border: none;
-    color: var(--primary-color);
-    cursor: pointer;
-    text-decoration: none;
-    padding: 0;
-}
-.link-btn:hover, .link:hover {
-    text-decoration: underline;
-}
-.nav {
-    text-align: center;
-    margin-top: 20px;
-}
-.actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: center;
-    margin-top: 20px;
-}
+// ---------------- LEARNING ----------------
+(function learnInit(){
+  const input = document.getElementById('learnInput'); const add = document.getElementById('addLearn'); const list = document.getElementById('learnList');
+  if(!add) return;
+  function render(){ list.innerHTML=''; JSON.parse(localStorage.getItem('learning')||'[]').forEach((it,i)=>{ const li=document.createElement('li'); const name=document.createElement('div'); name.textContent=it.name || it; const prog=document.createElement('input'); prog.type='range'; prog.min=0; prog.max=100; prog.value=it.progress||0; prog.addEventListener('input', ()=> { const arr=JSON.parse(localStorage.getItem('learning')||'[]'); arr[i].progress = Number(prog.value); localStorage.setItem('learning', JSON.stringify(arr)); render(); }); const del=document.createElement('button'); del.textContent='Remove'; del.className='btn small'; del.addEventListener('click', ()=>{ const arr=JSON.parse(localStorage.getItem('learning')||'[]'); arr.splice(i,1); localStorage.setItem('learning', JSON.stringify(arr)); render(); }); li.appendChild(name); li.appendChild(prog); li.appendChild(del); list.appendChild(li); }); }
+  add.addEventListener('click', ()=>{ const v=input.value.trim(); if(!v) return; const arr=JSON.parse(localStorage.getItem('learning')||'[]'); arr.push({ name:v, progress:0 }); localStorage.setItem('learning', JSON.stringify(arr)); input.value=''; render(); });
+  render();
+})();
 
+// ---------------- REVIEWS ----------------
+(function reviewInit(){
+  const good = document.getElementById('reviewGood'); const bad = document.getElementById('reviewBad'); const next = document.getElementById('reviewNext'); const btn = document.getElementById('saveReview'); const list = document.getElementById('reviewList');
+  if(!btn) return;
+  function render(){ list.innerHTML=''; JSON.parse(localStorage.getItem('reviews')||'[]').slice().reverse().forEach(r=>{ const li=document.createElement('li'); li.textContent = `${r.date} — Good: ${r.good} | Bad: ${r.bad} | Next: ${r.next}`; list.appendChild(li); }); }
+  btn.addEventListener('click', ()=>{ const arr=JSON.parse(localStorage.getItem('reviews')||'[]'); arr.push({ date: new Date().toLocaleDateString(), good: good.value, bad: bad.value, next: next.value }); localStorage.setItem('reviews', JSON.stringify(arr)); good.value=bad.value=next.value=''; render(); });
+  render();
+})();
 
-/* --- Form Elements --- */
-input:not([type="checkbox"], [type="range"], [type="file"]), textarea {
-    padding: 10px;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    font-size: 16px;
-    width: 100%;
-    box-sizing: border-box;
-    background: var(--card-bg);
-    color: var(--text-color);
-}
-textarea {
-    resize: vertical;
-}
-.row {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-}
-.row input {
-    flex-grow: 1;
-}
-
-/* --- Lists --- */
-.list {
-    list-style: none;
-    padding: 0;
-    margin-top: 15px;
-}
-.list li {
-    padding: 8px 0;
-    border-bottom: 1px solid var(--border-color);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-.list li:last-child {
-    border-bottom: none;
-}
-.list.link-list li {
-    justify-content: flex-start;
-}
-.link-text {
-    color: var(--text-color);
-    text-decoration: none;
-}
-.link-text:hover {
-    color: var(--primary-color);
-    text-decoration: underline;
-}
-
-/* --- Habits Table Styling --- */
-.table-wrap {
-    overflow-x: auto;
-}
-.habit-table th, .habit-table td {
-    padding: 8px;
-    text-align: left;
-    border: 1px solid var(--border-color);
-}
-.habit-table th {
-    background: var(--border-color);
-}
-.habit-table td:not(:first-child) {
-    text-align: center;
-}
-
-
-/* ------------------ FOOTER & MISC ------------------ */
-.small-text {
-    font-size: 0.75em;
-    color: #6b7280; 
-}
-.priority-dot {
-    height: 10px;
-    width: 10px;
-    background-color: #bbb;
-    border-radius: 50%;
-    display: inline-block;
-}
-
-.priority-dot.priority-high {
-    background-color: #ef4444; 
-}
-
-.priority-dot.priority-medium {
-    background-color: #f59e0b; 
-}
-
-.priority-dot.priority-low {
-    background-color: #10b981; 
-}
+// ---------------- EXPORT / IMPORT ----------------
+(function importExport(){
+  const exportBtn = document.getElementById('exportData');
+  const importBtn = document.getElementById('importBtn');
+  const importFile = document.getElementById('importData');
+  if (exportBtn) exportBtn.addEventListener('click', ()=> {
+    const data = {
+      habits: localStorage.getItem('habits'),
+      goals: localStorage.getItem('goals'),
+      learning: localStorage.getItem('learning'),
+      reviews: localStorage.getItem('reviews'),
+      schedule: localStorage.getItem('schedule'),
+      quickNote: localStorage.getItem('quickNote'),
+      theme: localStorage.getItem('theme')
+    };
+    const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'life_tracker_backup.json'; a.click();
+  });
+  if(importBtn && importFile){
+    importBtn.addEventListener('click', ()=> importFile.click());
+    importFile.addEventListener('change', (e)=> {
+      const f = e.target.files[0]; if(!f) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        try {
+          const data = JSON.parse(ev.target.result);
+          Object.keys(data).forEach(k => { if (data[k] !== null) localStorage.setItem(k, data[k]); });
+          alert('Import complete — reload pages to see changes.');
+        } catch(err){ alert('Invalid file'); }
+      };
+      reader.readAsText(f);
+    });
+  }
+})();
