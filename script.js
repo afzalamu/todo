@@ -1,49 +1,289 @@
-// ---------------- THEME ----------------
-(function themeInit(){
-// ... (Theme function remains the same) ...
-})();
+/* ------------------ GLOBAL ------------------ */
+/* --- THEME (Light/Dark Mode) --- */
+:root {
+    --bg-color: #f3f4f6;
+    --text-color: #333;
+    --card-bg: white;
+    --primary-color: #2563eb;
+    --primary-hover: #1d4ed8;
+    --danger-color: #dc2626;
+    --border-color: #e5e7eb;
+}
 
-// ---------------- REMOVED: QUOTES ----------------
+[data-theme='dark'] {
+    --bg-color: #1f2937;
+    --text-color: #f3f4f6;
+    --card-bg: #374151;
+    --primary-color: #60a5fa;
+    --primary-hover: #3b82f6;
+    --danger-color: #ef4444;
+    --border-color: #4b5563;
+}
 
-// ---------------- QUICK LINKS ----------------
-const quickLinks = [
-// ... (Quick Links function remains the same) ...
-];
-(function quickLinksInit(){
-// ... (Quick Links function remains the same) ...
-})();
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: var(--bg-color);
+    color: var(--text-color);
+}
 
-// ---------------- QUICK NOTE ----------------
-(function quickNoteInit(){
-// ... (Quick Note function remains the same) ...
-})();
+/* Topbar common */
+header.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px; 
+    background: var(--primary-color);
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
 
-// ---------------- SCHEDULE ----------------
-(function scheduleInit(){
-// ... (Schedule function remains the same) ...
-})();
+.brand {
+    font-weight: bold;
+    font-size: 1.2em;
+}
 
-// ---------------- HABITS ----------------
-(function habitsInit(){
-// ... (Habits function remains the same) ...
-})();
+.top-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px; 
+}
 
-// ---------------- GOALS ----------------
-(function goalsInit(){
-// ... (Goals function remains the same) ...
-})();
+/* Style for Bismillah Text */
+.header-text {
+    font-size: 1.1em;
+    direction: rtl; 
+    text-align: right;
+    font-family: 'Times New Roman', serif; 
+}
 
-// ---------------- LEARNING ----------------
-(function learnInit(){
-// ... (Learning function remains the same) ...
-})();
+.container {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 0 15px; 
+}
 
-// ---------------- REVIEWS ----------------
-(function reviewInit(){
-// ... (Reviews function remains the same) ...
-})();
+/* ------------------ COMMON ELEMENTS ------------------ */
 
-// ---------------- EXPORT / IMPORT ----------------
-(function importExport(){
-// ... (Export/Import function remains the same) ...
-})();
+/* --- Cards --- */
+.card {
+    background: var(--card-bg);
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+    /* BUTTON FIX: Ensure cards don't overlap buttons outside them */
+    position: relative; 
+}
+
+/* --- MAIN TWO-COLUMN LAYOUT FIX --- */
+.main-layout {
+    display: grid;
+    gap: 20px;
+}
+/* Left column stacks cards, Right column stacks cards */
+.left-column, .right-column {
+    display: flex;
+    flex-direction: column;
+}
+/* Ensure right column fills remaining space */
+.right-column .card.wide {
+    flex-grow: 1; 
+}
+
+/* Layout for wide screens (laptop) */
+@media (min-width: 768px) {
+    .main-layout {
+        /* Set two columns: Left (narrow, for small cards) and Right (wider, for trackers) */
+        grid-template-columns: 1fr 2fr; 
+    }
+}
+
+
+/* --- Buttons / Links (Functionality Fix) --- */
+.btn {
+    /* BUTTON FIX: Ensure buttons are clickable by layering them above other content */
+    position: relative;
+    z-index: 2; 
+
+    background: var(--primary-color);
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+/* ... rest of button styles remain the same ... */
+
+/* --- Habits Table (Functionality Fix) --- */
+.habit-table {
+    /* BUTTON FIX: Ensure table and its contents (checkboxes) are clickable */
+    position: relative;
+    z-index: 1; 
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+.habit-table input[type="checkbox"] {
+    position: relative;
+    z-index: 2; /* Force checkboxes above cells */
+    cursor: pointer;
+}
+
+
+/* ------------------ REST OF STYLES (UNCHANGED) ------------------ */
+
+h3, h4 {
+    margin: 0;
+    color: var(--text-color);
+}
+
+.card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.btn:hover {
+    background: var(--primary-hover);
+}
+.btn.small {
+    padding: 5px 10px;
+    font-size: 12px;
+}
+.btn.danger {
+    background: var(--danger-color);
+}
+.btn.danger:hover {
+    background: #c51d1d;
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
+}
+
+.link-btn, .link {
+    background: none;
+    border: none;
+    color: var(--primary-color);
+    cursor: pointer;
+    text-decoration: none;
+    padding: 0;
+}
+.link-btn:hover, .link:hover {
+    text-decoration: underline;
+}
+.nav {
+    text-align: center;
+    margin-top: 20px;
+}
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+
+/* --- Form Elements --- */
+input:not([type="checkbox"], [type="range"], [type="file"]), textarea {
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 16px;
+    width: 100%;
+    box-sizing: border-box;
+    background: var(--card-bg);
+    color: var(--text-color);
+}
+textarea {
+    resize: vertical;
+}
+.row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+.row input {
+    flex-grow: 1;
+}
+
+/* --- Lists --- */
+.list {
+    list-style: none;
+    padding: 0;
+    margin-top: 15px;
+}
+.list li {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.list li:last-child {
+    border-bottom: none;
+}
+.list.link-list li {
+    justify-content: flex-start;
+}
+.link-text {
+    color: var(--text-color);
+    text-decoration: none;
+}
+.link-text:hover {
+    color: var(--primary-color);
+    text-decoration: underline;
+}
+
+/* --- Habits Table Styling --- */
+.table-wrap {
+    overflow-x: auto;
+}
+.habit-table th, .habit-table td {
+    padding: 8px;
+    text-align: left;
+    border: 1px solid var(--border-color);
+}
+.habit-table th {
+    background: var(--border-color);
+}
+.habit-table td:not(:first-child) {
+    text-align: center;
+}
+
+
+/* ------------------ FOOTER & MISC ------------------ */
+.small-text {
+    font-size: 0.75em;
+    color: #6b7280; 
+}
+.priority-dot {
+    height: 10px;
+    width: 10px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.priority-dot.priority-high {
+    background-color: #ef4444; 
+}
+
+.priority-dot.priority-medium {
+    background-color: #f59e0b; 
+}
+
+.priority-dot.priority-low {
+    background-color: #10b981; 
+}
