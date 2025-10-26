@@ -11,8 +11,6 @@
   btns.forEach(b => { if (!b) return; b.addEventListener('click', ()=> setTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark')); });
 })();
 
-// ---------------- REMOVED: QUOTES ----------------
-
 // ---------------- QUICK LINKS ----------------
 const quickLinks = [
     { name: "My Work Repo", url: "https://github.com/your-repo" },
@@ -58,21 +56,19 @@ const quickLinks = [
     }
   }
   
-  // Load schedule and initial timestamp
   box.value = localStorage.getItem('schedule') || '';
   updateTimestamp();
 
-  // Save on input and update timestamp
   box.addEventListener('input', ()=> {
     localStorage.setItem('schedule', box.value);
     const time = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
     const ts = new Date().toLocaleDateString() + ' ' + time;
     localStorage.setItem('scheduleTimestamp', ts);
-    updateTimestamp(); // Refresh the display
+    updateTimestamp();
   });
 })();
 
-// ---------------- HABITS (FIXED FUNCTIONALITY) ----------------
+// ---------------- HABITS (FUNCTIONAL FIX) ----------------
 (function habitsInit(){
   const tableBody = (document.getElementById('habitTable')||{}).querySelector('tbody');
   const addBtn = document.getElementById('addHabit');
@@ -80,7 +76,6 @@ const quickLinks = [
 
   if (!tableBody) return;
   
-  // FIX: save() function moved out of render()
   function save(){ 
     const habits = Array.from(tableBody.querySelectorAll('tr')).map(r=>({ 
         name: r.children[0].textContent, 
@@ -98,7 +93,6 @@ const quickLinks = [
       for(let i=0;i<7;i++){
         const td = document.createElement('td');
         const cb = document.createElement('input'); cb.type='checkbox'; cb.checked = !!h.days[i];
-        // Listener now calls the correctly scoped save() function
         cb.addEventListener('change', ()=> { h.days[i]=cb.checked; save(); });
         td.appendChild(cb); tr.appendChild(td);
       }
@@ -133,7 +127,6 @@ const quickLinks = [
     const goals = JSON.parse(localStorage.getItem('goals')||'[]');
 
     goals.forEach((g,i)=>{ 
-      // Ensure 'g' is an object for backwards compatibility
       const goal = (typeof g === 'string') ? { name: g, priority: 'Medium' } : g;
 
       const li=document.createElement('li'); 
@@ -141,7 +134,6 @@ const quickLinks = [
       content.style.display = 'flex';
       content.style.alignItems = 'center';
 
-      // Priority Indicator
       const indicator = document.createElement('span');
       indicator.className = `priority-dot priority-${goal.priority.toLowerCase()}`;
       indicator.title = `${goal.priority} Priority`;
@@ -174,7 +166,6 @@ const quickLinks = [
     if(!v) return; 
 
     const arr=JSON.parse(localStorage.getItem('goals')||'[]'); 
-    // Store as an object
     arr.push({ name: v, priority: p }); 
     localStorage.setItem('goals', JSON.stringify(arr)); 
     input.value=''; 
@@ -182,7 +173,7 @@ const quickLinks = [
   });
   
   render();
-})();
+})(); // FIX: Ensure this self-executing function is closed and called correctly
 
 // ---------------- LEARNING ----------------
 (function learnInit(){
