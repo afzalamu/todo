@@ -74,7 +74,6 @@ header.topbar {
     margin-bottom: 20px;
     border-radius: 8px;
     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
-    /* BUTTON FIX: Ensure cards don't overlap buttons outside them */
     position: relative; 
 }
 
@@ -96,7 +95,7 @@ header.topbar {
 /* Layout for wide screens (laptop) */
 @media (min-width: 768px) {
     .main-layout {
-        /* Set two columns: Left (narrow, for small cards) and Right (wider, for trackers) */
+        /* Two columns: Left (narrow, 1 part) and Right (wider, 2 parts) */
         grid-template-columns: 1fr 2fr; 
     }
 }
@@ -118,38 +117,6 @@ header.topbar {
     font-size: 14px;
     transition: background-color 0.2s;
 }
-/* ... rest of button styles remain the same ... */
-
-/* --- Habits Table (Functionality Fix) --- */
-.habit-table {
-    /* BUTTON FIX: Ensure table and its contents (checkboxes) are clickable */
-    position: relative;
-    z-index: 1; 
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-}
-.habit-table input[type="checkbox"] {
-    position: relative;
-    z-index: 2; /* Force checkboxes above cells */
-    cursor: pointer;
-}
-
-
-/* ------------------ REST OF STYLES (UNCHANGED) ------------------ */
-
-h3, h4 {
-    margin: 0;
-    color: var(--text-color);
-}
-
-.card-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
 .btn:hover {
     background: var(--primary-hover);
 }
@@ -246,9 +213,16 @@ textarea {
     text-decoration: underline;
 }
 
-/* --- Habits Table Styling --- */
+/* --- Habits Table Styling (Functionality Fix) --- */
 .table-wrap {
     overflow-x: auto;
+}
+.habit-table {
+    position: relative;
+    z-index: 1; /* Ensures table is above background */
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
 }
 .habit-table th, .habit-table td {
     padding: 8px;
@@ -260,6 +234,11 @@ textarea {
 }
 .habit-table td:not(:first-child) {
     text-align: center;
+}
+.habit-table input[type="checkbox"] {
+    position: relative;
+    z-index: 2; /* Ensures checkboxes are clickable */
+    cursor: pointer;
 }
 
 
