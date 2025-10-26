@@ -1,22 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Goals</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Goals — Afzal</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header>
-    <h1>🎯 My Goals</h1>
-    <button id="themeToggle">🌙</button>
+  <header class="topbar">
+    <div class="brand">🎯 Goals</div>
+    <div class="top-actions">
+      <button id="themeToggle" class="icon-btn">🌙</button>
+    </div>
   </header>
 
-  <main>
-    <input type="text" id="goalInput" placeholder="Add new goal...">
-    <button id="addGoal">Add</button>
-    <ul id="goalList"></ul>
-    <p><a href="index.html" class="button">⬅ Back</a></p>
+  <main class="container">
+    <div class="card">
+      <div class="row">
+        <input id="goalInput" placeholder="Add a goal (e.g., learn to ride a bike)" />
+        <button id="addGoal" class="btn">Add</button>
+      </div>
+      <ul id="goalList" class="list"></ul>
+    </div>
+
+    <p class="nav"><a href="index.html" class="link">← Back to Home</a></p>
   </main>
 
   <script src="script.js"></script>
