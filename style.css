@@ -212,43 +212,6 @@ textarea {
 }
 
 
-/* ------------------ DASHBOARD ONLY (MOOD CHART & STATS) ------------------ */
-
-.dashboard-container {
-    overflow-y: visible;
-}
-
-.dashboard-container canvas {
-    max-height: 300px;
-    height: 250px; 
-    width: 100% !important;
-}
-
-.dashboard-container .card {
-    background: var(--card-bg);
-    padding: 15px;
-    margin-bottom: 20px;
-    border-radius: 8px;
-    box-shadow: 0 1px 5px rgba(0,0,0,0.1);
-}
-
-.dashboard-container .row.stats {
-    display: flex;
-    justify-content: space-around;
-    text-align: center;
-}
-
-.dashboard-container .stat-num {
-    font-size: 28px;
-    font-weight: bold;
-    color: var(--primary-color);
-}
-
-.dashboard-container .stat-label {
-    font-size: 14px;
-    color: var(--text-color);
-}
-
 /* ------------------ NEW FEATURES STYLES ------------------ */
 
 .small-text {
