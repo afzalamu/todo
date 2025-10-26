@@ -1,71 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Afzal — Life Tracker</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <header class="topbar">
-    <div class="brand">🌱 Afzal — Life Tracker</div>
-    <div class="top-actions">
-      <button id="themeToggle" class="icon-btn">🌙</button>
-    </div>
-  </header>
+// ... (Theme and Quotes functions remain the same) ...
 
-  <main class="container">
-    <section class="grid">
-            <div class="card">
-        <div class="card-head">
-          <h3>Daily Motivation</h3>
-          <button id="nextQuote" class="link-btn">Next</button>
-        </div>
-        <p id="quote" class="quote">Loading...</p>
-      </div>
+// ---------------- QUICK LINKS (NEW) ----------------
+const quickLinks = [
+    { name: "My Work Repo", url: "https://github.com/your-repo" },
+    { name: "Learning Course", url: "https://udemy.com" },
+    { name: "Daily News", url: "https://news.google.com" }
+];
+(function quickLinksInit(){
+    const list = document.getElementById('quickLinksList');
+    if (!list) return;
 
-            <div class="card">
-        <div class="card-head">
-          <h3>Quick Note</h3>
-        </div>
-        <textarea id="quickNoteText" rows="5" placeholder="Ideas, accomplishments, or random thoughts..."></textarea>
-      </div>
-        
-                <div class="card wide">
-        <div class="card-head">
-            <h3>Daily Schedule</h3>
-            <small id="scheduleTimestamp" class="small-text"></small>
-        </div>
-        <textarea id="scheduleText" rows="5" placeholder="Write plan for today (e.g., 6:30 walk, 9:00 focused work)..."></textarea>
-      </div>
+    list.innerHTML = '';
+    quickLinks.forEach(link => {
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = link.url;
+        a.textContent = link.name;
+        a.target = '_blank'; // Opens in a new tab
+        a.className = 'link-text';
+        li.appendChild(a);
+        list.appendChild(li);
+    });
+})();
 
-            <div class="card wide">
-        <div class="card-head">
-          <h3>Weekly Habit Tracker</h3>
-          <div>
-            <button id="addHabit" class="btn small">Add Habit</button>
-            <button id="resetHabits" class="btn small danger">Reset Week</button>
-          </div>
-        </div>
-        <div class="table-wrap">
-          <table id="habitTable" class="habit-table">
-            <thead><tr><th>Habit</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th>Sun</th></tr></thead>
-            <tbody></tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-
-    <section class="actions">
-      <a class="btn" href="goals.html">🎯 Goals</a>
-      <a class="btn" href="learning.html">📚 Learning</a>
-      <a class="btn" href="review.html">🪞 Review</a>
-            <button id="exportData" class="btn">⬇ Export</button>
-      <input id="importData" type="file" accept="application/json" style="display:none" />
-      <button id="importBtn" class="btn">⬆ Import</button>
-    </section>
-  </main>
-
-  <script src="script.js"></script>
-</body>
-</html>
+// ---------------- QUICK NOTE ----------------
+// ... (rest of script.js remains the same) ...
