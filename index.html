@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>Weekly Fat-Loss & Strength Plan — PG + 9-5</title>
 <style>
-  :root{
+  :root {
     --bg:#0f1724;
     --card:#0b1220;
     --accent:#4fd1c5;
@@ -14,52 +14,104 @@
     --text:#e6eef6;
     --pill:#15212b;
   }
-  body{font-family:Inter,system-ui,Segoe UI,Helvetica,Arial; background:linear-gradient(180deg,#071022 0%, #0b1220 100%); color:var(--text); margin:0; padding:28px;}
-  .wrap{max-width:980px; margin:0 auto;}
-  header{display:flex;align-items:center;gap:16px;margin-bottom:18px}
-  header h1{font-size:20px;margin:0}
-  header p{margin:0;color:var(--muted); font-size:13px}
-  .grid{display:grid; grid-template-columns:1fr 320px; gap:20px;}
-  .main{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); padding:18px; border-radius:12px; box-shadow:0 6px 18px rgba(3,6,12,0.6);}
-  .side{background:var(--card); padding:16px; border-radius:12px; height:fit-content;}
-  .day{border-left:4px solid rgba(79,209,197,0.06); padding:12px 14px;margin-bottom:12px;border-radius:8px; background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);}
-  .day h2{margin:0 0 6px 0; font-size:16px; color:var(--accent)}
-  .section-title{font-weight:600; color:#cfeee6; margin:6px 0 8px; font-size:14px}
-  ul{margin:6px 0 12px 18px; color:var(--text)}
-  li{margin:6px 0; line-height:1.35}
-  .pill{display:inline-block;background:var(--pill);padding:6px 10px;border-radius:999px;color:var(--muted); font-size:13px; margin-right:8px}
-  .table{width:100%; border-collapse:collapse; margin-top:8px}
-  .table th, .table td{padding:8px; text-align:left; border-bottom:1px dashed rgba(255,255,255,0.03); color:var(--muted); font-size:13px}
-  .dos{background:#082026; padding:10px; border-radius:8px; margin-top:8px}
-  .do{color:#b7ffef}
-  .dont{color:#ffb3b3}
-  footer{margin-top:16px;color:var(--muted); font-size:13px}
-  .small{font-size:12px;color:var(--muted)}
-  .sleep-table{width:100%; border-collapse:collapse; margin-top:8px}
-  .sleep-table th, .sleep-table td{padding:8px; color:var(--muted); font-size:13px}
-  .highlight{color:var(--accent); font-weight:600}
-  pre{background:#07101a;padding:10px;border-radius:8px; overflow:auto; font-size:13px}
-  [contenteditable="true"] {outline: 1px dashed rgba(255,255,255,0.08);}
-  .today-highlight {border-left-color: var(--accent) !important; box-shadow:0 0 16px rgba(79,209,197,0.4);}
-  @media (max-width:920px){ .grid{grid-template-columns:1fr; } .side{order:2} header{flex-direction:column; align-items:flex-start} }
+  body {
+    font-family: Inter, system-ui, Segoe UI, Helvetica, Arial;
+    background: linear-gradient(180deg, #071022 0%, #0b1220 100%);
+    color: var(--text);
+    margin: 0;
+    padding: 28px;
+  }
+  .wrap { max-width: 980px; margin: 0 auto; }
+  header { display: flex; align-items: center; gap: 16px; margin-bottom: 18px; }
+  header h1 { font-size: 20px; margin: 0; }
+  header p { margin: 0; color: var(--muted); font-size: 13px; }
+  .days { display: flex; gap: 12px; overflow-x: auto; scroll-behavior: smooth; }
+  .day {
+    background: var(--card);
+    border-radius: 18px;
+    padding: 18px;
+    min-width: 240px;
+    flex-shrink: 0;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+    transition: transform 0.2s ease;
+  }
+  .day:hover { transform: translateY(-2px); }
+  .day.today { border: 2px solid var(--accent); }
+  .day h2 {
+    font-size: 16px;
+    color: var(--accent);
+    margin: 0 0 8px;
+    text-transform: uppercase;
+  }
+  .day p {
+    background: var(--pill);
+    border-radius: 10px;
+    padding: 8px;
+    font-size: 13px;
+    line-height: 1.4;
+    cursor: text;
+    outline: none;
+  }
 </style>
 </head>
-<body contenteditable="true">
-  <!-- your entire HTML content (unchanged) -->
-  <!-- BEGIN original -->
-  <!-- [Paste the entire content you gave verbatim here — which is already present above in your message] -->
-  <!-- END original -->
-  <script>
-    // Scroll to today's section on load
-    document.addEventListener("DOMContentLoaded", () => {
-      const days = ["sunday","monday","tuesday","wednesday","thursday","friday","saturday"];
-      const today = new Date().getDay(); // 0 = Sunday
-      const el = document.getElementById(days[today]);
-      if (el) {
-        el.scrollIntoView({behavior: "smooth", block: "start"});
-        el.classList.add("today-highlight");
-      }
+<body>
+<div class="wrap">
+  <header>
+    <h1>Weekly Fat-Loss & Strength Plan</h1>
+    <p>Editable — saves for today, resets daily</p>
+  </header>
+
+  <div class="days" id="days"></div>
+</div>
+
+<script>
+const defaultPlan = {
+  Monday: "🏋️‍♂️ Strength: Push day (Chest, Shoulders, Triceps)\n🥗 Meals: High-protein, low-carb\n🧘 Recovery: Stretch 10 min",
+  Tuesday: "🚴 Cardio: 40 min cycling\n🍳 Meals: Balanced macros\n💧 Hydration focus",
+  Wednesday: "🏋️‍♂️ Strength: Pull day (Back, Biceps)\n🥗 Meals: Protein + veggies\n🧘 Yoga 15 min",
+  Thursday: "🦵 Leg day: Squats, Lunges, Calf raises\n🥗 Meals: Carbs allowed pre-workout\n🧠 Journaling night",
+  Friday: "💪 Full body circuit (30 min)\n🍗 Lean protein meals\n🎧 Relax evening",
+  Saturday: "🧘 Recovery: Light stretching or walk\n🍉 Hydration & fruit day\n📚 Learning or side project",
+  Sunday: "🚶‍♂️ Morning walk\n🍽️ Cheat meal allowed\n🛌 Rest early for next week"
+};
+
+const container = document.getElementById("days");
+const todayIndex = new Date().getDay(); // 0 = Sunday
+const daysOfWeek = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+const todayName = daysOfWeek[todayIndex];
+
+// localStorage key based on today's date
+const todayKey = "plan-" + new Date().toLocaleDateString();
+
+function loadPlan() {
+  // If stored date differs from today, clear old data
+  const storedDate = localStorage.getItem("plan-date");
+  if (storedDate !== new Date().toLocaleDateString()) {
+    localStorage.clear();
+    localStorage.setItem("plan-date", new Date().toLocaleDateString());
+  }
+
+  daysOfWeek.forEach(day => {
+    const saved = localStorage.getItem(day) || defaultPlan[day];
+    const div = document.createElement("div");
+    div.className = "day" + (day === todayName ? " today" : "");
+    div.innerHTML = `<h2>${day}</h2><p contenteditable="true">${saved}</p>`;
+    const p = div.querySelector("p");
+    p.addEventListener("input", () => {
+      localStorage.setItem(day, p.innerText);
     });
-  </script>
+    container.appendChild(div);
+  });
+}
+
+function scrollToToday() {
+  const todayCard = document.querySelector(".day.today");
+  if (todayCard) todayCard.scrollIntoView({ behavior: "smooth", inline: "center" });
+}
+
+loadPlan();
+scrollToToday();
+</script>
+
 </body>
 </html>
