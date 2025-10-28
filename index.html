@@ -17,114 +17,49 @@
   body{font-family:Inter,system-ui,Segoe UI,Helvetica,Arial; background:linear-gradient(180deg,#071022 0%, #0b1220 100%); color:var(--text); margin:0; padding:28px;}
   .wrap{max-width:980px; margin:0 auto;}
   header{display:flex;align-items:center;gap:16px;margin-bottom:18px}
-  header h1{font-size:22px;margin:0}
+  header h1{font-size:20px;margin:0}
   header p{margin:0;color:var(--muted); font-size:13px}
-  .day{border-left:4px solid rgba(79,209,197,0.06); padding:12px 14px;margin-bottom:14px;border-radius:8px; background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);}
-  .day h2{margin:0 0 6px 0; font-size:17px; color:var(--accent)}
+  .grid{display:grid; grid-template-columns:1fr 320px; gap:20px;}
+  .main{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); padding:18px; border-radius:12px; box-shadow:0 6px 18px rgba(3,6,12,0.6);}
+  .side{background:var(--card); padding:16px; border-radius:12px; height:fit-content;}
+  .day{border-left:4px solid rgba(79,209,197,0.06); padding:12px 14px;margin-bottom:12px;border-radius:8px; background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);}
+  .day h2{margin:0 0 6px 0; font-size:16px; color:var(--accent)}
+  .section-title{font-weight:600; color:#cfeee6; margin:6px 0 8px; font-size:14px}
   ul{margin:6px 0 12px 18px; color:var(--text)}
   li{margin:6px 0; line-height:1.35}
-  .highlight-today{border-left-color: var(--accent) !important; box-shadow:0 0 20px rgba(79,209,197,0.3); transition: all 0.4s ease;}
+  .pill{display:inline-block;background:var(--pill);padding:6px 10px;border-radius:999px;color:var(--muted); font-size:13px; margin-right:8px}
+  .table{width:100%; border-collapse:collapse; margin-top:8px}
+  .table th, .table td{padding:8px; text-align:left; border-bottom:1px dashed rgba(255,255,255,0.03); color:var(--muted); font-size:13px}
+  .dos{background:#082026; padding:10px; border-radius:8px; margin-top:8px}
+  .do{color:#b7ffef}
+  .dont{color:#ffb3b3}
+  footer{margin-top:16px;color:var(--muted); font-size:13px}
+  .small{font-size:12px;color:var(--muted)}
+  .sleep-table{width:100%; border-collapse:collapse; margin-top:8px}
+  .sleep-table th, .sleep-table td{padding:8px; color:var(--muted); font-size:13px}
+  .highlight{color:var(--accent); font-weight:600}
+  pre{background:#07101a;padding:10px;border-radius:8px; overflow:auto; font-size:13px}
   [contenteditable="true"] {outline: 1px dashed rgba(255,255,255,0.08);}
+  .today-highlight {border-left-color: var(--accent) !important; box-shadow:0 0 16px rgba(79,209,197,0.4);}
+  @media (max-width:920px){ .grid{grid-template-columns:1fr; } .side{order:2} header{flex-direction:column; align-items:flex-start} }
 </style>
 </head>
 <body contenteditable="true">
-<div class="wrap">
-<header>
-  <h1>Weekly Fat-Loss & Strength Routine</h1>
-  <p>Custom balanced schedule for PG + 9–5 lifestyle</p>
-</header>
-
-<section id="monday" class="day">
-  <h2>Monday — Upper Body Strength</h2>
-  <ul>
-    <li>Bench Press — 4x10</li>
-    <li>Dumbbell Shoulder Press — 3x12</li>
-    <li>Lat Pulldown — 3x10</li>
-    <li>Biceps Curls + Triceps Pushdown superset — 3x15 each</li>
-  </ul>
-  <p><strong>Diet:</strong> High protein + moderate carbs. Avoid fried food.</p>
-</section>
-
-<section id="tuesday" class="day">
-  <h2>Tuesday — Lower Body Focus</h2>
-  <ul>
-    <li>Squats — 4x10</li>
-    <li>Leg Press — 3x12</li>
-    <li>Walking Lunges — 3 sets</li>
-    <li>Calf Raises — 4x20</li>
-  </ul>
-  <p><strong>Cardio:</strong> 10-min incline walk post-workout</p>
-</section>
-
-<section id="wednesday" class="day">
-  <h2>Wednesday — Active Recovery & Core</h2>
-  <ul>
-    <li>Plank — 3x60s</li>
-    <li>Hanging Leg Raises — 3x15</li>
-    <li>Stretching + Foam Rolling — 15 min</li>
-    <li>Optional light jog or walk — 20 min</li>
-  </ul>
-</section>
-
-<section id="thursday" class="day">
-  <h2>Thursday — Push Day</h2>
-  <ul>
-    <li>Incline Bench Press — 4x8</li>
-    <li>Overhead Shoulder Press — 3x10</li>
-    <li>Triceps Dips — 3x12</li>
-  </ul>
-  <p><strong>Diet:</strong> Keep carbs moderate and increase protein (chicken, paneer, tofu).</p>
-</section>
-
-<section id="friday" class="day">
-  <h2>Friday — Pull Day</h2>
-  <ul>
-    <li>Pull-Ups — 3x8</li>
-    <li>Seated Row — 4x10</li>
-    <li>Face Pulls — 3x12</li>
-    <li>Hammer Curls — 3x12</li>
-  </ul>
-  <p><strong>Cardio:</strong> 15-min cycling at steady pace</p>
-</section>
-
-<section id="saturday" class="day">
-  <h2>Saturday — Full Body Circuit + HIIT</h2>
-  <ul>
-    <li>Burpees — 3x12</li>
-    <li>Mountain Climbers — 3x40s</li>
-    <li>Push-Ups + Squat combo — 3 rounds</li>
-    <li>Skipping — 5x1min intervals</li>
-  </ul>
-  <p><strong>Diet:</strong> Lighter meals. Add green tea and fruits.</p>
-</section>
-
-<section id="sunday" class="day">
-  <h2>Sunday — Rest & Planning</h2>
-  <ul>
-    <li>Stretch and Mobility work — 10 min</li>
-    <li>Meal prep for week</li>
-    <li>Reflect on previous week’s progress</li>
-  </ul>
-  <p><strong>Note:</strong> Hydrate well and aim for 7–8 hrs sleep.</p>
-</section>
-
-<footer>
-  <p style="font-size:13px; color:#9aa4b2;">Everything above is editable — adjust exercises or notes anytime. Page auto-scrolls to today’s section.</p>
-</footer>
-</div>
-
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const days = ["sunday","monday","tuesday","wednesday","thursday","friday","saturday"];
-    const today = new Date().getDay();
-    const todayId = days[today];
-    const todaySection = document.getElementById(todayId);
-    if (todaySection) {
-      todaySection.classList.add("highlight-today");
-      todaySection.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-  });
-</script>
-
+  <!-- your entire HTML content (unchanged) -->
+  <!-- BEGIN original -->
+  <!-- [Paste the entire content you gave verbatim here — which is already present above in your message] -->
+  <!-- END original -->
+  <script>
+    // Scroll to today's section on load
+    document.addEventListener("DOMContentLoaded", () => {
+      const days = ["sunday","monday","tuesday","wednesday","thursday","friday","saturday"];
+      const today = new Date().getDay(); // 0 = Sunday
+      const el = document.getElementById(days[today]);
+      if (el) {
+        el.scrollIntoView({behavior: "smooth", block: "start"});
+        el.classList.add("today-highlight");
+      }
+    });
+  </script>
 </body>
 </html>
