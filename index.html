@@ -15,7 +15,7 @@
   }
   body{font-family:Inter,system-ui,Segoe UI,Helvetica,Arial; background:linear-gradient(180deg,#071022 0%, #0b1220 100%); color:var(--text); margin:0; padding:28px;}
   .wrap{max-width:980px; margin:0 auto;}
-  header{display:flex;align-items:center;gap:16px;margin-bottom:18px}
+  header{display:flex;align-items:center;gap:16px;margin-bottom:18px;flex-wrap:wrap;}
   header h1{font-size:20px;margin:0}
   header p{margin:0;color:var(--muted); font-size:13px}
   .grid{display:grid; grid-template-columns:1fr 320px; gap:20px;}
@@ -39,28 +39,73 @@
   .sleep-table th, .sleep-table td{padding:8px; color:var(--muted); font-size:13px}
   .highlight{color:var(--accent); font-weight:600}
   pre{background:#07101a;padding:10px;border-radius:8px; overflow:auto; font-size:13px}
-  @media (max-width:920px){ .grid{grid-template-columns:1fr; } .side{order:2} header{flex-direction:column; align-items:flex-start} }
+  .day-selector{background:var(--card); color:var(--text); border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:6px 10px; font-size:13px; cursor:pointer; margin-left:auto;}
+  .day-selector:hover{border-color:var(--accent);}
+  @media (max-width:920px){ .grid{grid-template-columns:1fr; } .side{order:2} header{flex-direction:column; align-items:flex-start} .day-selector{margin:8px 0 0 0;} }
 </style>
 </head>
 <body>
   <div class="wrap">
-    <!-- (KEEP YOUR SAME CONTENT HERE – unchanged for brevity) -->
-    <!-- all your <header>, .grid, .day sections, and <aside> remain same -->
+    <header>
+      <div>
+        <h1>Weekly Fat-Loss & Strength Plan — PG + 9→5</h1>
+        <p>Bodyweight + dumbbells + skipping integrated. Realistic PG meals (rice lunch / roti dinner). 10k steps daily.</p>
+      </div>
+
+      <!-- 🔽 Day selector dropdown -->
+      <select id="daySelector" class="day-selector" title="Jump to a specific day">
+        <option value="">Jump to Day...</option>
+        <option value="monday">Monday</option>
+        <option value="tuesday">Tuesday</option>
+        <option value="wednesday">Wednesday</option>
+        <option value="thursday">Thursday</option>
+        <option value="friday">Friday</option>
+        <option value="saturday">Saturday</option>
+        <option value="sunday">Sunday</option>
+      </select>
+    </header>
+
+    <!-- KEEP YOUR EXISTING GRID AND CONTENT BELOW UNCHANGED -->
+    <div class="grid">
+      <div class="main">
+        <!-- your same .day sections here (Monday to Sunday) -->
+      </div>
+
+      <aside class="side">
+        <!-- your same sidebar content here -->
+      </aside>
+    </div>
+
+    <footer>
+      <div>Saved notes: take weekly photos in same clothes/lighting; measure chest at nipple-line and waist at navel every 2 weeks.</div>
+    </footer>
   </div>
 
-  <!-- Script for auto-scroll and highlight -->
+  <!-- 🧠 JS for auto-scroll & dropdown navigation -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const days = ["sunday","monday","tuesday","wednesday","thursday","friday","saturday"];
       const today = new Date().getDay(); // 0 = Sunday, 6 = Saturday
       const id = days[today];
       const section = document.getElementById(id);
+      
+      // Highlight & scroll to today
       if (section) {
         section.classList.add("highlight-today");
-        // Smooth scroll to the day's section
         section.scrollIntoView({ behavior: "smooth", block: "start" });
       }
+
+      // Dropdown jump handler
+      const selector = document.getElementById("daySelector");
+      selector.addEventListener("change", (e) => {
+        const selectedId = e.target.value;
+        if (selectedId) {
+          const el = document.getElementById(selectedId);
+          if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      });
     });
   </script>
 </body>
 </html>
+
