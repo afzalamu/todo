@@ -1,77 +1,351 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Afzal — Life Tracker</title>
-  <link rel="stylesheet" href="style.css" />
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Weekly Fat-Loss & Strength Plan — PG + 9-5</title>
+<style>
+  :root{
+    --bg:#0f1724;
+    --card:#0b1220;
+    --accent:#4fd1c5;
+    --muted:#9aa4b2;
+    --text:#e6eef6;
+    --pill:#15212b;
+  }
+  body{font-family:Inter,system-ui,Segoe UI,Helvetica,Arial; background:linear-gradient(180deg,#071022 0%, #0b1220 100%); color:var(--text); margin:0; padding:28px;}
+  .wrap{max-width:980px; margin:0 auto;}
+  header{display:flex;align-items:center;gap:16px;margin-bottom:18px}
+  header h1{font-size:20px;margin:0}
+  header p{margin:0;color:var(--muted); font-size:13px}
+  .grid{display:grid; grid-template-columns:1fr 320px; gap:20px;}
+  .main{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); padding:18px; border-radius:12px; box-shadow:0 6px 18px rgba(3,6,12,0.6);}
+  .side{background:var(--card); padding:16px; border-radius:12px; height:fit-content;}
+  .day{border-left:4px solid rgba(79,209,197,0.06); padding:12px 14px;margin-bottom:12px;border-radius:8px; background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);}
+  .day h2{margin:0 0 6px 0; font-size:16px; color:var(--accent)}
+  .section-title{font-weight:600; color:#cfeee6; margin:6px 0 8px; font-size:14px}
+  ul{margin:6px 0 12px 18px; color:var(--text)}
+  li{margin:6px 0; line-height:1.35}
+  .pill{display:inline-block;background:var(--pill);padding:6px 10px;border-radius:999px;color:var(--muted); font-size:13px; margin-right:8px}
+  .table{width:100%; border-collapse:collapse; margin-top:8px}
+  .table th, .table td{padding:8px; text-align:left; border-bottom:1px dashed rgba(255,255,255,0.03); color:var(--muted); font-size:13px}
+  .dos{background:#082026; padding:10px; border-radius:8px; margin-top:8px}
+  .do{color:#b7ffef}
+  .dont{color:#ffb3b3}
+  footer{margin-top:16px;color:var(--muted); font-size:13px}
+  .small{font-size:12px;color:var(--muted)}
+  .sleep-table{width:100%; border-collapse:collapse; margin-top:8px}
+  .sleep-table th, .sleep-table td{padding:8px; color:var(--muted); font-size:13px}
+  .highlight{color:var(--accent); font-weight:600}
+  pre{background:#07101a;padding:10px;border-radius:8px; overflow:auto; font-size:13px}
+  @media (max-width:920px){ .grid{grid-template-columns:1fr; } .side{order:2} header{flex-direction:column; align-items:flex-start} }
+</style>
 </head>
 <body>
-  <header class="topbar">
-    <div class="brand">🌱 Afzal — Life Tracker</div>
-    <div class="top-actions">
-            <span class="header-text">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</span>
-      <button id="themeToggle" class="icon-btn">🌙</button>
-    </div>
-  </header>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>Weekly Fat-Loss & Strength Plan — PG + 9→5</h1>
+        <p>Bodyweight + dumbbells + skipping integrated. Realistic PG meals (rice lunch / roti dinner). 10k steps daily.</p>
+      </div>
+      <div class="small">Plan: 5 workouts/week • Skipping added • Sleep & timing guidance included</div>
+    </header>
 
-  <main class="container">
-    <section class="main-layout">
-        
-                <div class="left-column">
-                    <div class="card">
-            <div class="card-head">
-              <h3>Quick Note</h3>
-            </div>
-            <textarea id="quickNoteText" rows="5" placeholder="Ideas, accomplishments, or random thoughts..."></textarea>
-          </div>
-            
-                    <div class="card">
-            <div class="card-head">
-              <h3>Quick Links</h3>
-            </div>
-            <ul id="quickLinksList" class="list link-list">
-                </ul>
-          </div>
+    <div class="grid">
+      <div class="main">
+
+        <!-- MONDAY -->
+        <div class="day" id="monday">
+          <h2>MONDAY — Chest & Triceps</h2>
+
+          <div class="section-title">Workout (35–45 min)</div>
+          <ul>
+            <li><strong>Warm-up (5 min):</strong> jumping jacks, arm swings, shoulder rolls</li>
+            <li>Push-ups — 3 × 12–15 (near failure)</li>
+            <li>Dumbbell bench press (floor/bed if no bench) — 4 × 10–12</li>
+            <li>Dumbbell fly — 3 × 10–12</li>
+            <li>Overhead triceps extension — 3 × 12</li>
+            <li>Close-grip push-ups — 2 × max</li>
+            <li>Plank — 3 × 30–45s</li>
+            <li><strong>Skipping</strong> — 10 min (1 min on / 30 s rest × ~7)</li>
+            <li>Cool down: chest & triceps stretch 3–5 min</li>
+          </ul>
+
+          <div class="section-title">Diet</div>
+          <ul>
+            <li><strong>Breakfast (7–8 AM):</strong> 2 boiled eggs + 1 banana + tea (no sugar)</li>
+            <li><strong>Office tea (10 AM):</strong> 1 cup (no sugar)</li>
+            <li><strong>Lunch (1 PM):</strong> 1 cup cooked rice + dal + sabzi + curd (+ 1 boiled egg if possible)</li>
+            <li><strong>Snack (5 PM):</strong> roasted chana or fruit</li>
+            <li><strong>Dinner (9 PM):</strong> 2 rotis + sabzi + ½ cup curd</li>
+            <li>Post-dinner walk: 15–20 min</li>
+          </ul>
+
+          <div class="dos">
+            <div class="do pill">Do</div>
+            <div class="small">Finish dinner ≥2 hours before sleep, hydrate (3 L/day), take photos weekly.</div>
+            <div style="height:6px"></div>
+            <div class="dont pill">Don't</div>
+            <div class="small">Don't eat fried snacks/biscuits after dinner.</div>
+          </div>
         </div>
 
-        <div class="right-column">
-                    <div class="card wide">
-            <div class="card-head">
-                <h3>Daily Schedule</h3>
-                <small id="scheduleTimestamp" class="small-text"></small>
-            </div>
-            <textarea id="scheduleText" rows="5" placeholder="Write plan for today (e.g., 6:30 walk, 9:00 focused work)..."></textarea>
-          </div>
+        <!-- TUESDAY -->
+        <div class="day" id="tuesday">
+          <h2>TUESDAY — Legs & Core</h2>
 
-                    <div class="card wide">
-            <div class="card-head">
-              <h3>Weekly Habit Tracker</h3>
-              <div>
-                <button id="addHabit" class="btn small">Add Habit</button>
-                <button id="resetHabits" class="btn small danger">Reset Week</button>
-              </div>
-            </div>
-            <div class="table-wrap">
-              <table id="habitTable" class="habit-table">
-                <thead><tr><th>Habit</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th>Sun</th></tr></thead>
-                <tbody></tbody>
-              </table>
-            </div>
-          </div>
+          <div class="section-title">Workout</div>
+          <ul>
+            <li>Warm-up 5 min (leg swings, light jog)</li>
+            <li>Goblet squat (dumbbell) — 4 × 12</li>
+            <li>Dumbbell lunges — 3 × 10/leg</li>
+            <li>Dumbbell Romanian deadlift — 3 × 12</li>
+            <li>Calf raises — 3 × 20</li>
+            <li>Plank — 3 × 45s</li>
+            <li>Skipping — 10 min (2 min on / 30 s rest × 5)</li>
+            <li>Stretch quads/hamstrings/calf 4–5 min</li>
+          </ul>
+
+          <div class="section-title">Diet</div>
+          <ul>
+            <li><strong>Breakfast:</strong> Oats + milk + 5 almonds (or 2 idlis + 1 boiled egg)</li>
+            <li><strong>10 AM:</strong> office tea (no sugar)</li>
+            <li><strong>Lunch:</strong> 1 cup rice + sambar + veggies + curd</li>
+            <li><strong>Snack:</strong> fruit / black coffee</li>
+            <li><strong>Dinner:</strong> 2 rotis + sabzi + dal</li>
+          </ul>
+
+          <div class="dos">
+            <div class="do pill">Do</div>
+            <div class="small">Stretch legs before bed; hydrate well.</div>
+            <div style="height:6px"></div>
+            <div class="dont pill">Don't</div>
+            <div class="small">Don't sit immediately after meals — take a short walk.</div>
+          </div>
         </div>
-    </section>
 
-    <section class="actions">
-      <a class="btn" href="goals.html">🎯 Goals</a>
-      <a class="btn" href="learning.html">📚 Learning</a>
-      <a class="btn" href="review.html">🪞 Review</a>
-      <button id="exportData" class="btn">⬇ Export</button>
-      <input id="importData" type="file" accept="application/json" style="display:none" />
-      <button id="importBtn" class="btn">⬆ Import</button>
-    </section>
-  </main>
+        <!-- WEDNESDAY -->
+        <div class="day" id="wednesday">
+          <h2>WEDNESDAY — Back & Biceps</h2>
 
-  <script src="script.js"></script>
+          <div class="section-title">Workout</div>
+          <ul>
+            <li>Warm-up 5 min</li>
+            <li>Dumbbell single-arm row — 4 × 10/arm</li>
+            <li>Reverse fly — 3 × 12</li>
+            <li>Dumbbell deadlift — 3 × 10</li>
+            <li>Bicep curls — 4 × 12</li>
+            <li>Hammer curls — 3 × 12</li>
+            <li>Plank with shoulder taps — 3 × 30s</li>
+            <li>Skipping — 10 min (1 min fast + 1 min slow × ~5 rounds)</li>
+            <li>Stretch upper back & arms</li>
+          </ul>
+
+          <div class="section-title">Diet</div>
+          <ul>
+            <li><strong>Breakfast:</strong> 2 boiled eggs + 1 apple</li>
+            <li><strong>10 AM:</strong> office tea</li>
+            <li><strong>Lunch:</strong> 1 cup rice + dal + sabzi + curd</li>
+            <li><strong>Snack:</strong> peanuts or fruit</li>
+            <li><strong>Dinner:</strong> 2 rotis + sabzi + paneer (50–100 g)</li>
+          </ul>
+
+          <div class="dos">
+            <div class="do pill">Do</div>
+            <div class="small">Keep posture straight at your desk; eat slowly.</div>
+            <div style="height:6px"></div>
+            <div class="dont pill">Don't</div>
+            <div class="small">Don't overdo tea/coffee — limit to your 1 office cup.</div>
+          </div>
+        </div>
+
+        <!-- THURSDAY -->
+        <div class="day" id="thursday">
+          <h2>THURSDAY — Shoulders & Core</h2>
+
+          <div class="section-title">Workout</div>
+          <ul>
+            <li>Warm-up 5 min</li>
+            <li>Dumbbell shoulder press — 4 × 10–12</li>
+            <li>Lateral raises — 3 × 12</li>
+            <li>Front raises — 3 × 10</li>
+            <li>Upright rows — 3 × 10</li>
+            <li>Shrugs — 3 × 15</li>
+            <li>Bicycle crunch — 3 × 20</li>
+            <li>Skipping — 10 min (moderate)</li>
+            <li>Shoulder stretch 4–5 min</li>
+          </ul>
+
+          <div class="section-title">Diet</div>
+          <ul>
+            <li><strong>Breakfast:</strong> Egg dosa + 1 boiled egg (or 2 boiled eggs + oats)</li>
+            <li><strong>10 AM:</strong> office tea</li>
+            <li><strong>Lunch:</strong> 1 cup rice + dal + veg + curd</li>
+            <li><strong>Snack:</strong> fruit or green tea</li>
+            <li><strong>Dinner:</strong> 2 rotis + sabzi + dal</li>
+          </ul>
+
+          <div class="dos">
+            <div class="do pill">Do</div>
+            <div class="small">Take short shoulder/neck breaks at work.</div>
+            <div style="height:6px"></div>
+            <div class="dont pill">Don't</div>
+            <div class="small">Don't hunch forward while sitting.</div>
+          </div>
+        </div>
+
+        <!-- FRIDAY -->
+        <div class="day" id="friday">
+          <h2>FRIDAY — Full Body & Conditioning</h2>
+
+          <div class="section-title">Workout (Circuit)</div>
+          <ul>
+            <li>Circuit × 3–4 rounds (1 min rest between rounds):</li>
+            <li>• 15 push-ups</li>
+            <li>• 15 dumbbell squats</li>
+            <li>• 10 dumbbell rows</li>
+            <li>• 15 mountain climbers</li>
+            <li>• 30s plank</li>
+            <li>After circuit: Skipping 15 min (1 min fast + 30 s rest)</li>
+            <li>Cool down + full-body stretch</li>
+          </ul>
+
+          <div class="section-title">Diet</div>
+          <ul>
+            <li><strong>Breakfast:</strong> 2 boiled eggs + 1 banana (or oats)</li>
+            <li><strong>10 AM:</strong> office tea</li>
+            <li><strong>Lunch:</strong> 1 cup rice + dal + sabzi + curd</li>
+            <li><strong>Snack:</strong> fruit / roasted chana</li>
+            <li><strong>Dinner:</strong> 2 rotis + sabzi + curd</li>
+          </ul>
+
+          <div class="dos">
+            <div class="do pill">Do</div>
+            <div class="small">Focus on form; full-body stretch after session.</div>
+            <div style="height:6px"></div>
+            <div class="dont pill">Don't</div>
+            <div class="small">Don't eat heavy fried office snacks.</div>
+          </div>
+        </div>
+
+        <!-- SATURDAY -->
+        <div class="day" id="saturday">
+          <h2>SATURDAY — Chest & Core (Chicken Day)</h2>
+
+          <div class="section-title">Workout</div>
+          <ul>
+            <li>Push-ups — 4 × 15</li>
+            <li>Dumbbell bench press — 3 × 10–12</li>
+            <li>Dumbbell fly — 3 × 12</li>
+            <li>Crunches — 3 × 15</li>
+            <li>Plank — 3 × 45s</li>
+            <li>Skipping — 20 min (2 min on / 30 s rest × ~8)</li>
+          </ul>
+
+          <div class="section-title">Diet</div>
+          <ul>
+            <li><strong>Breakfast:</strong> 2 boiled eggs + fruit</li>
+            <li><strong>10 AM:</strong> office tea</li>
+            <li><strong>Lunch:</strong> <strong>1.5 cups rice</strong> + chicken + veg + curd (use this day for extra protein)</li>
+            <li><strong>Snack:</strong> green tea + fruit</li>
+            <li><strong>Dinner:</strong> 2 rotis + sabzi + dal</li>
+          </ul>
+
+          <div class="dos">
+            <div class="do pill">Do</div>
+            <div class="small">Enjoy the chicken—it's your high-protein meal. Watch rice quantity.</div>
+            <div style="height:6px"></div>
+            <div class="dont pill">Don't</div>
+            <div class="small">Don't use the chicken day as a full cheat day.</div>
+          </div>
+        </div>
+
+        <!-- SUNDAY -->
+        <div class="day" id="sunday">
+          <h2>SUNDAY — Active Recovery & Mobility</h2>
+
+          <div class="section-title">Workout / Activity</div>
+          <ul>
+            <li>30–45 min brisk walk</li>
+            <li>Optional skipping 15–20 min (light)</li>
+            <li>Yoga / full-body mobility & stretch 20 min</li>
+          </ul>
+
+          <div class="section-title">Diet</div>
+          <ul>
+            <li><strong>Breakfast:</strong> Oats + milk + nuts</li>
+            <li><strong>10 AM:</strong> office tea</li>
+            <li><strong>Lunch:</strong> Rice + chicken / eggs + veg (control rice to 1–1.5 cups)</li>
+            <li><strong>Snack:</strong> fruit or roasted peanuts</li>
+            <li><strong>Dinner:</strong> 2 rotis + sabzi + curd</li>
+          </ul>
+
+          <div class="dos">
+            <div class="do pill">Do</div>
+            <div class="small">Relax, recover, and try to sleep a bit earlier (target earlier bedtime).</div>
+            <div style="height:6px"></div>
+            <div class="dont pill">Don't</div>
+            <div class="small">Don't binge — keep the calorie balance across the week.</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- SIDE PANEL -->
+      <aside class="side">
+        <h3 style="margin-top:0;color:var(--accent)">Daily Non-Negotiables</h3>
+        <ul>
+          <li>10,000 steps every day</li>
+          <li>Drink 2.5–3 L water daily</li>
+          <li>1 cup tea only (office, 10 AM) — no sugar</li>
+          <li>Aim for 7–8 hours sleep (target: lights off by 11:30 PM — sleep by 12:00 AM)</li>
+          <li>Avoid fried snacks, biscuits, sugary drinks</li>
+          <li>Track progress weekly: front & side photos + chest/waist measurements</li>
+        </ul>
+
+        <h3 style="color:var(--accent)">Sleep & Timing Guide</h3>
+        <table class="sleep-table">
+          <tr><th>Time</th><th>Action</th></tr>
+          <tr><td>7–8 AM</td><td>Breakfast</td></tr>
+          <tr><td>10 AM</td><td>Office tea (1 cup)</td></tr>
+          <tr><td>1 PM</td><td>Lunch (PG)</td></tr>
+          <tr><td>5 PM</td><td>Snack</td></tr>
+          <tr><td>7 PM</td><td>Start workout</td></tr>
+          <tr><td>9 PM</td><td>Dinner</td></tr>
+          <tr><td>9:30 PM</td><td>15–20 min walk</td></tr>
+          <tr><td>11:30 PM</td><td>Screens off / wind-down</td></tr>
+          <tr><td>12:00 AM</td><td>Target sleep</td></tr>
+        </table>
+
+        <h3 style="color:var(--accent)">Skipping (How to progress)</h3>
+        <ul>
+          <li>Week 1: 1 min skip / 30 s rest × 5 (learn rhythm)</li>
+          <li>Week 2: 2 min skip / 30 s rest × 5 (build endurance)</li>
+          <li>Week 3: 1 min fast / 1 min moderate × 7 (mix intensity)</li>
+          <li>Week 4: 2 rounds × 5 min continuous (conditioning)</li>
+        </ul>
+
+        <h3 style="color:var(--accent)">Quick Tips</h3>
+        <ul>
+          <li>Protein target: aim ~1.5 g/kg bodyweight (use eggs, paneer, chicken, dal)</li>
+          <li>Portion guide: 1 cup cooked rice ≈ fist size; protein = palm size</li>
+          <li>Keep cheat: 1 small cheat meal/week (not a day)</li>
+          <li>Buy: dumbbells + skipping rope + good shoes (soft landing)</li>
+        </ul>
+
+        <div style="margin-top:12px; padding:10px; background:#071821; border-radius:8px;">
+          <strong class="highlight">Next steps</strong>
+          <div class="small" style="margin-top:6px">
+            If you want: I can add a recommended dumbbell weight progression (exact kg to buy), or export this page as a downloadable HTML/PDF. Tell me which you prefer.
+          </div>
+        </div>
+
+      </aside>
+    </div>
+
+    <footer>
+      <div>Saved notes: take weekly photos in same clothes/lighting; measure chest at nipple-line and waist at navel every 2 weeks.</div>
+    </footer>
+  </div>
 </body>
 </html>
